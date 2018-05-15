@@ -7,6 +7,11 @@
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <Authors>Ben Hutchison</Authors>
     <Company>Ben's World</Company>
+    <RepositoryUrl>https://github.com/Aldaviva/KoKo</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
+    <PackageTags>knockout model property</PackageTags>
+    <PackageProjectUrl>https://github.com/Aldaviva/KoKo</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/Aldaviva/KoKo/blob/master/License.txt</PackageLicenseUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

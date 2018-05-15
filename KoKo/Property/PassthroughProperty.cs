@@ -8,6 +8,10 @@
     public class PassthroughProperty<T> : UnsettableProperty<T>
     {
         private readonly Property<T> _parentProperty;
+
+        /// <summary>
+        /// The Value of the parent <see cref="Property{T}"/>.
+        /// </summary>
         public override T Value => _parentProperty.Value;
 
         /// <summary>
