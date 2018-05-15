@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.0</TargetFramework>
+    <Description>Knockout for Cocoa, for C#</Description>
+    <Copyright>2018 Ben Hutchison</Copyright>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <Authors>Ben Hutchison</Authors>
+    <Company>Ben's World</Company>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard1.0\KoKo.xml</DocumentationFile>
+  </PropertyGroup>
+
+</Project>

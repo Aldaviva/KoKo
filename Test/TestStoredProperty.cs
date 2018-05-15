@@ -1,5 +1,5 @@
-﻿using CoCo.Property;
-using FluentAssertions;
+﻿using FluentAssertions;
+using KoKo.Property;
 using Xunit;
 
 namespace Test

@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel;
 
-namespace CoCo.Property
+namespace KoKo.Property
 {
-    public abstract class SettableProperty<T> : Property<T>
+    public abstract class UnsettableProperty<T> : Property<T>
     {
-        public abstract T Value { get; set; }
+        public abstract T Value { get; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

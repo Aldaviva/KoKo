@@ -1,5 +1,5 @@
 ﻿using System;
-using CoCo.Property;
+using KoKo.Property;
 using FluentAssertions;
 using Xunit;
 
