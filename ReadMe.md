@@ -1,9 +1,8 @@
 # KoKo
 
 KoKo lets you create `Property` objects as fields of your models.
-Unlike built-in C# [properties](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/properties), 
-KoKo `Property` objects automatically fire change events. They can be composed from multiple other Properties without the dependencies 
-being aware of the dependents, and without manually writing any event handling code.
+
+Unlike built-in C# [properties](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/properties), KoKo `Property` objects automatically fire change events. They can be composed from multiple other Properties without the dependencies being aware of the dependents, and without manually writing any event handling code.
 
 ## Installation
 **[KoKo on NuGet Gallery](https://www.nuget.org/packages/KoKo/)**
