@@ -4,7 +4,7 @@
     <TargetFramework>netstandard1.0</TargetFramework>
     <Description>Knockout for Cocoa, for C#</Description>
     <Copyright>2018 Ben Hutchison</Copyright>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <Title>KoKo</Title>
     <Authors>Ben Hutchison</Authors>
     <Company>Ben's World</Company>
@@ -13,6 +13,7 @@
     <PackageTags>knockout model property</PackageTags>
     <PackageProjectUrl>https://github.com/Aldaviva/KoKo</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/Aldaviva/KoKo/master/License.txt</PackageLicenseUrl>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

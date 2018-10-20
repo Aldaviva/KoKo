@@ -57,5 +57,20 @@ namespace Test
 
             eventsTriggeredCount.Should().Be(0);
         }
+
+        [Fact]
+        public void ConstructingWithoutInitialValueUsesDefault()
+        {
+            new StoredProperty<string>().Value.Should().BeNull();
+            new StoredProperty<bool>().Value.Should().BeFalse();
+            new StoredProperty<int>().Value.Should().Be(0);
+        }
+
+        [Fact]
+        public void GetObjectValueWithGenericCasting() {
+            var storedProperty = new StoredProperty<int>(3);
+            Property property = storedProperty;
+            property.Value.Should().Be(3);
+        }
     }
 }
