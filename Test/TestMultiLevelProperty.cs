@@ -1,21 +1,17 @@
 ﻿using FluentAssertions;
 using KoKo.Property;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Test {
 
     public class TestMultiLevelProperty {
 
-        private readonly ITestOutputHelper output;
         private readonly Participant participant;
         private readonly Roster roster;
         private readonly MultiLevelProperty<string> currentParticipantName;
         private int changeEventsFired = 0;
 
-        public TestMultiLevelProperty(ITestOutputHelper output) {
-            this.output = output;
-
+        public TestMultiLevelProperty() {
             participant = new Participant();
             participant.Name.Value = "A";
             roster = new Roster();

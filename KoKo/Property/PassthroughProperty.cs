@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using KoKo.Events;
+﻿using KoKo.Events;
 
 namespace KoKo.Property {
 

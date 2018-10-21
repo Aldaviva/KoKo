@@ -65,6 +65,7 @@ namespace Test {
         public void GetNotVisible() {
             var myNativeProperty = new MyWritableNativePropertyClass();
 
+            // ReSharper disable once ObjectCreationAsStatement we want to see the constructor throw an exception
             Action thrower = () => new NativeWritableProperty<string>(myNativeProperty, nameof(myNativeProperty.SetOnly));
             thrower.Should().Throw<ArgumentException>();
         }
@@ -73,6 +74,7 @@ namespace Test {
         public void SetNotVisible() {
             var myNativeProperty = new MyWritableNativePropertyClass();
 
+            // ReSharper disable once ObjectCreationAsStatement we want to see the constructor throw an exception
             Action thrower = () => new NativeWritableProperty<string>(myNativeProperty, nameof(myNativeProperty.GetOnly));
             thrower.Should().Throw<ArgumentException>();
         }
@@ -81,6 +83,7 @@ namespace Test {
         public void WrongType() {
             var myNativeProperty = new MyWritableNativePropertyClass();
 
+            // ReSharper disable once ObjectCreationAsStatement we want to see the constructor throw an exception
             Action thrower = () => new NativeWritableProperty<int>(myNativeProperty, nameof(myNativeProperty.Greeting));
             thrower.Should().Throw<ArgumentException>();
         }
@@ -102,8 +105,11 @@ namespace Test {
         }
 
         public string GetOnly => "getOnly";
+
+        // ReSharper disable once NotAccessedField.Local it's for a test
         private string setOnly;
         public string SetOnly {
+            // ReSharper disable once MemberCanBePrivate.Global it actually can't, the lack of a public getter causes a compilation error with a private setter
             set => setOnly = value;
         }
 

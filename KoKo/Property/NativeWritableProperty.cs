@@ -48,10 +48,6 @@ namespace KoKo.Property {
             } else if (!nativeProperty.CanWrite) {
                 throw new ArgumentException($"The property {nativePropertyName} of object {nativeObject} does not have a visible set accessor.");
             }
-            /*else if (!typeof(T).GetTypeInfo().IsAssignableFrom(nativeProperty.PropertyType.GetTypeInfo())) {
-                throw new ArgumentException($"The property {nativePropertyName} of object {nativeObject} is of type {nativeProperty.PropertyType.Name}," +
-                                            $" but this KoKo {GetType().Name} was constructed with generic type {typeof(T).Name}, and the former is not assignable to the latter.");
-            }*/
 
             object untypedValue = nativeProperty.GetValue(nativeObject);
             if (untypedValue is T typedValue) {
