@@ -1,23 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard1.0</TargetFramework>
-    <Description>Knockout for Cocoa, for C#</Description>
-    <Copyright>2018 Ben Hutchison</Copyright>
-    <AssemblyVersion>2.0.0.0</AssemblyVersion>
-    <Title>KoKo</Title>
-    <Authors>Ben Hutchison</Authors>
-    <Company>Ben's World</Company>
-    <RepositoryUrl>https://github.com/Aldaviva/KoKo</RepositoryUrl>
-    <RepositoryType>GitHub</RepositoryType>
-    <PackageTags>knockout model property</PackageTags>
-    <PackageProjectUrl>https://github.com/Aldaviva/KoKo</PackageProjectUrl>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/Aldaviva/KoKo/master/License.txt</PackageLicenseUrl>
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netstandard1.0\KoKo.xml</DocumentationFile>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
+        <Description>Knockout for Cocoa, for C#</Description>
+        <Copyright>2020 Ben Hutchison</Copyright>
+        <Version>2.0.1</Version>
+        <Title>KoKo</Title>
+        <Authors>Ben Hutchison</Authors>
+        <Company>Ben's World</Company>
+        <RepositoryUrl>https://github.com/Aldaviva/KoKo.git</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>knockout model property reactive</PackageTags>
+        <PackageProjectUrl>https://github.com/Aldaviva/KoKo</PackageProjectUrl>
+        <LangVersion>latest</LangVersion>
+        <IncludeSource>true</IncludeSource>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    </PropertyGroup>
 
 </Project>
