@@ -4,7 +4,7 @@ namespace KoKo.Property {
 
     /// <summary>
     /// A data property object which takes its <see cref="Value"/> from another <see cref="Property{T}"/> with no changes.
-    /// If you want a property which does apply a transformation based on another property, use a <seealso cref="DerivedProperty{T}"/> instead.
+    /// If you want a property which does apply a transformation based on another property, use a <see cref="DerivedProperty{T}"/> instead.
     /// </summary>
     /// <typeparam name="T">The type of the <see cref="Value"/> exposed by this property and its parent.</typeparam>
     public class PassthroughProperty<T>: UnsettableProperty<T> {

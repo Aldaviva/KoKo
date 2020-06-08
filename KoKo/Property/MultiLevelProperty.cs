@@ -6,6 +6,12 @@ using System.Reflection;
 
 namespace KoKo.Property {
 
+    /// <summary>
+    /// Property that can evaluate a chain of other nested properties to get its value. Useful if you want to listen for changes to a
+    /// sub-property of a top-level property, but the top-level property may not always refer to the same instance.
+    /// </summary>
+    /// <typeparam name="T">The type of this property's value, which is also the type of the rightmost property in the expression
+    /// chain</typeparam>
     public class MultiLevelProperty<T>: UnsettableProperty<T> {
 
         private readonly PropertyInstrumentingVisitor instrumentor;
@@ -13,6 +19,10 @@ namespace KoKo.Property {
 
         public override T Value => CachedValue;
 
+        /// <summary>
+        /// Create a property whose value is obtained from a specified property accessor chain
+        /// </summary>
+        /// <param name="multiLevelPropertyExpression">A function expression consisting of a chain of property reads that return a leaf property. This property's value will be taken from that leaf's property.<br/><code>new MultiLevelProperty(() => currentSession.Value.currentUser.Value.fullName)</code></param>
         public MultiLevelProperty(Expression<Func<Property<T>>> multiLevelPropertyExpression): base(default) {
             instrumentor = new PropertyInstrumentingVisitor();
             instrumentedPropertyExpression = ((Expression<Func<Property<T>>>) instrumentor.Visit(multiLevelPropertyExpression))?.Compile() ??

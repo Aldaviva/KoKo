@@ -10,8 +10,8 @@ namespace Test {
     public class TestTentativeProperty {
 
         private readonly StoredProperty<int> parent = new StoredProperty<int>(1);
-        private readonly TimeSpan shortDuration = TimeSpan.FromMilliseconds(100);
-        private readonly TimeSpan longDuration = TimeSpan.FromMilliseconds(200);
+        private readonly TimeSpan shortDuration = TimeSpan.FromMilliseconds(75);
+        private readonly TimeSpan longDuration = TimeSpan.FromMilliseconds(150);
 
         [Fact]
         public void InitialValueFromParent() {
