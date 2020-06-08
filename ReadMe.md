@@ -1,49 +1,75 @@
 # KoKo
 
-KoKo lets you create `Property` objects as fields of your models.
+*Knockout for Cocoa, for C#*
 
-Unlike built-in C# [properties](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/properties), KoKo `Property` objects automatically fire change events. They can be composed from multiple other Properties without the dependencies being aware of the dependents, and without manually writing any event handling code.
+KoKo lets you create `Property` objects as members of your model classes.
 
+Unlike [native C# properties](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/properties), KoKo `Property` objects automatically fire change events. They can be composed from multiple other Properties without the dependencies being aware of the dependents, and without writing any boilerplate event handling code.
+
+These properties are very similar to what you would find in Knockout, MobX, and WPF's `DependencyProperty`. They do not rely on a presentation layer like WPF, and they do not require you to import and understand a large, overblown, confusing library like .NET Reactive Extensions.
+
+This library is a port of KoKo ("Knockout for Cocoa"), a Swift library by [@abrindam](https://github.com/abrindam).
+
+<!-- MarkdownTOC autolink="true" bracket="round" autoanchor="true" levels="1,2,3" -->
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [Example](#example)
+- [Properties](#properties)
+    - [**`StoredProperty`**](#storedproperty)
+    - [**`DerivedProperty`**](#derivedproperty)
+    - [`ConnectableProperty`](#connectableproperty)
+    - [`ManuallyRecalculatedProperty`](#manuallyrecalculatedproperty)
+    - [`MultiLevelProperty`](#multilevelproperty)
+    - [`NativeReadableProperty`](#nativereadableproperty)
+    - [`NativeWritableProperty`](#nativewritableproperty)
+    - [`PassthroughProperty`](#passthroughproperty)
+    - [`TentativeProperty`](#tentativeproperty)
+
+<!-- /MarkdownTOC -->
+
+
+<a id="installation"></a>
 ## Installation
 **[KoKo on NuGet Gallery](https://www.nuget.org/packages/KoKo/)**
 
-1. Right-click on your C# project and go to Manage NuGet Packages
-1. Under Browse, search for `KoKo`
-1. Click the down arrow button for `KoKo`
+1. Right-click on your C# project and go to Manage NuGet Packages.
+1. Under Browse, search for `KoKo`.
+1. Click the down arrow button for `KoKo`.
 
+<a id="usage"></a>
 ## Usage
-1. Create a `class` to act as your business or view model
-1. Import the `KoKo.Property` namespace
-1. Add some `Property` fields
-1. Get and set their `Value`
+1. Create a `class` to act as your business or view model.
+1. Import the `KoKo.Property` namespace.
+1. Add some `Property` fields.
+1. Get and set their `Value`.
 
+<a id="example"></a>
 ## Example
 This is a just a silly, simple example. [Don't actually represent people's names this way.](https://www.w3.org/International/questions/qa-personal-names)
 
 ```cs
 using KoKo.Property;
 
-namespace Project1
-{
-    class Person
-    {
-        readonly StoredProperty<string> firstName;
-        readonly StoredProperty<string> lastName;
-        readonly Property<string> fullName;
+namespace Project1 {
 
-        Person(string firstName, string lastName)
-        {
+    internal class Person {
+
+        private readonly StoredProperty<string> firstName;
+        private readonly StoredProperty<string> lastName;
+        internal readonly Property<string> fullName;
+
+        internal Person(string firstName, string lastName) {
             this.firstName = new StoredProperty<string>(firstName);
             this.lastName = new StoredProperty<string>(lastName);
 
-            fullName = new DerivedProperty<string>(new[] { this.firstName, this.lastName },
-                () => $"{this.firstName.Value} {this.lastName.Value}");
+            fullName = DerivedProperty<string>.Create(this.firstName, this.lastName, (first, last) => $"{first} {last}");
         }
 
-        void ChangeFirstName(string newFirstName)
-        {
+        private void changeFirstName(string newFirstName) {
             firstName.Value = newFirstName;
         }
+
     }
 }
 ```
@@ -55,7 +81,7 @@ var person = new Person("Alice", "Smith");
 Console.WriteLine(person.fullName.Value); // Alice Smith
 ```
 
-and if you change a dependency value, the full name will be automatically updated.
+and if you change a dependency value, the dependent full name will be automatically updated.
 
 ```cs
 person.ChangeFirstName("Bob");
@@ -65,19 +91,20 @@ Console.WriteLine(person.fullName.Value); // Bob Smith
 You can also use Properties with databinding:
 
 ```cs
-private void Form1_Load(object sender, System.EventArgs e)
-{
+private void Form1_Load(object sender, System.EventArgs e) {
     personNameLabel.DataBindings.Add("Text", model.fullName, "Value");
 }
 ```
 
+<a id="properties"></a>
 ## Properties
 
-### `StoredProperty`
+<a id="storedproperty"></a>
+### **`StoredProperty`**
 
 - Stores a single value in memory
 - Value can be get or set imperatively
-- Similar to a C# property, except you don't have to implement `INotifyPropertyChanged` yourself
+- Similar to a native C# property, except you don't have to [implement `INotifyPropertyChanged` yourself](https://docs.microsoft.com/en-us/dotnet/framework/winforms/how-to-implement-the-inotifypropertychanged-interface), and 
 
 ```cs
 var a = new StoredProperty<string>("world");
@@ -86,22 +113,89 @@ a.Value = "world!";
 Console.WriteLine($"Hello {a.Value}"); // Hello world!
 ```
 
-### `DerivedProperty`
+<a id="derivedproperty"></a>
+### **`DerivedProperty`**
 
 - Automatically calculates its value from other _dependency_ properties
-- Cannot set the value directly, but you can get the value just like a `StoredProperty`
+- Cannot set the value directly, but you can get the value just like a [`StoredProperty`](#storedProperty)
 
 ```cs
 var b = new StoredProperty<int>(8);
-var absoluteValueB = new DerivedProperty<int>(new[] { b }, () => System.Math.Abs(b.Value));
+DerivedProperty<int> absoluteValueB = DerivedProperty<int>.Create(b, (bDependency) => System.Math.Abs(bDependency));
 Console.WriteLine($"The absolute value of {b.Value} is {absoluteValueB.Value}."); // The absolute value of 8 is 8.
 b.Value = -9;
 Console.WriteLine($"The absolute value of {b.Value} is {absoluteValueB.Value}."); // The absolute value of -9 is 9.
 ```
 
+<a id="connectableproperty"></a>
+### `ConnectableProperty`
+- Like a [`PassthroughProperty`](#passthroughProperty), except the dependent `ConnectableProperty` has its dependency `Property` passed to it instead of depending upon it at creation time
+- Useful for inversion of control where the dependent must not be aware of how to obtain its dependencies
+- Can be reconnected and disconnected multiple times, to allow reconfiguration
+
+```cs
+var connectable = new ConnectableProperty<int>(0);
+var a = new StoredProperty<int>(8);
+Console.WriteLine(connectable.Value); // 0
+connectable.Connect(a);
+Console.WriteLine(connectable.Value); // 8
+```
+
+<a id="manuallyrecalculatedproperty"></a>
+### `ManuallyRecalculatedProperty`
+- Like a [`DerivedProperty`](#derivedProperty), except instead of recalculating its value based on changes to dependency properties, you must manually instruct the property to recalculate its value
+- Useful when the dependencies do not have a way to expose change events
+- Useful when the dependencies are constantly changing and you don't care about every change
+- Useful when the recalculation is very expensive and you want to reduce how often it is run
+
+```cs
+var manuallyRecalculated = new ManuallyRecalculatedProperty<long>(() => DateTimeOffset.Now.ToUnixTimeMilliseconds());
+Console.WriteLine(manuallyRecalculated); // 1591651725420
+Thread.Sleep(1000);
+manuallyRecalculated.Recalculate();
+Console.WriteLine(manuallyRecalculated); // 1591651726420
+```
+
+<a id="multilevelproperty"></a>
+### `MultiLevelProperty`
+- Like a [`PassthroughProperty`](#passthroughProperty), except it gets a property value nested at an arbitrary depth
+- Useful if you have an object graph with properties whose values are classes with other properties
+- Useful if the top-level reference may change to a different instance (which person is currently logged in), but the property chain you want to refer to is always the same (the full name of the currently logged-in person)
+
+```cs
+var person = new Person("FirstName", "LastName");
+var currentUser = new StoredProperty<Person>(person);
+var currentUserFullName = new MultiLevelProperty<string>(() => currentUser.Value.fullName);
+Console.WriteLine($"Welcome, {currentUserFullName.Value}"); // Welcome, FirstName LastName
+```
+
+<a id="nativereadableproperty"></a>
+### `NativeReadableProperty`
+- Useful for interoperation with C# classes that expose property value changes using `INotifyPropertyChanged`
+
+```cs
+var nativePropertyObject = new NativePropertyClass { nativeProperty = 8 };
+var kokoProperty = new NativeReadableProperty<int>(nativePropertyObject, nameof(NativePropertyClass.nativeProperty));
+Console.WriteLine(kokoProperty.Value); // 8
+```
+
+<a id="nativewritableproperty"></a>
+### `NativeWritableProperty`
+- Like a [`NativeReadableProperty`](#nativeReadableProperty), except you can also change the value
+- Useful when the native C# property has an accessible setter
+
+```cs
+var nativePropertyObject = new NativePropertyClass { nativeProperty = 8 };
+var kokoProperty = new NativeWritableProperty<int>(nativePropertyObject, nameof(NativePropertyClass.nativeProperty));
+Console.WriteLine(kokoProperty.Value); // 8
+kokoProperty.Value = 9;
+Console.WriteLine(nativePropertyObject.nativeProperty); // 9
+```
+
+<a id="passthroughproperty"></a>
 ### `PassthroughProperty`
 
-- Like a `DerivedProperty`, except it depends on a single property and does not transform the value at all
+- Like a [`DerivedProperty`](#derivedProperty), except it depends on a single property and does not transform the value at all
 
 ```cs
 var a = new StoredProperty<double>(3.0);
@@ -109,4 +203,21 @@ var b = new PassthroughProperty<double>(a);
 Console.WriteLine($"{b.Value} liters"); // 3 liters
 a.Value = 5.0;
 Console.WriteLine($"{b.Value} liters"); // 5 liters
+```
+
+<a id="tentativeproperty"></a>
+### `TentativeProperty`
+- Like a [`PassthroughProperty`](#passthroughProperty), except you can supply a temporary overriding value, which it will use for a specified duration before reverting to the passthrough value
+
+```cs
+var backing = new StoredProperty<int>(8);
+var tentative = new TentativeProperty<int>(backing, TimeSpan.FromMilliseconds(500));
+Console.WriteLine(tentative.Value); // 8
+backing.Value = 9;
+Console.WriteLine(tentative.Value); // 9
+tentative.Value = 10;
+backing.Value = 11;
+Console.WriteLine(tentative.Value); // 10
+Thread.Sleep(1000);
+Console.WriteLine(tentative.Value); // 11
 ```
