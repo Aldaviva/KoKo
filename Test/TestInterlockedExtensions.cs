@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
-using KoKo.Extensions;
 using KoKo.Property;
 using Xunit;
 

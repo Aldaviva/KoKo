@@ -104,7 +104,8 @@ private void Form1_Load(object sender, System.EventArgs e) {
 
 - Stores a single value in memory
 - Value can be get or set imperatively
-- Similar to a native C# property, except you don't have to [implement `INotifyPropertyChanged` yourself](https://docs.microsoft.com/en-us/dotnet/framework/winforms/how-to-implement-the-inotifypropertychanged-interface), and 
+- Similar to a native C# property, except you don't have to [implement `INotifyPropertyChanged` yourself](https://docs.microsoft.com/en-us/dotnet/framework/winforms/how-to-implement-the-inotifypropertychanged-interface)
+- You can perform [atomic operations](https://docs.microsoft.com/en-us/dotnet/api/system.threading.interlocked#methods) on a `StoredProperty` value using `Increment()`, `Decrement()`, `Add(value)`, `Exchange(value)`, or `CompareExchange(possibleNewValue, assignIfOldValueEquals)`
 
 ```cs
 var a = new StoredProperty<string>("world");

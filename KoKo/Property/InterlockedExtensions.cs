@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Threading;
-using KoKo.Property;
 
-namespace KoKo.Extensions {
+namespace KoKo.Property {
 
     public static class InterlockedExtensions {
 
