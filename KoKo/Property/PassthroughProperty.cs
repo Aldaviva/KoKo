@@ -30,11 +30,10 @@ namespace KoKo.Property {
             this.parentProperty.PropertyChanged += OnParentPropertyChanged;
         }
 
-        private void OnParentPropertyChanged(object sender, KoKoPropertyChangedEventArgs<T> args) {
+        protected virtual void OnParentPropertyChanged(object sender, KoKoPropertyChangedEventArgs<T> args) {
             OnValueChanged(args.OldValue, args.NewValue);
         }
         
-
     }
 
 }
