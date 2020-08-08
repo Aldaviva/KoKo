@@ -31,6 +31,13 @@ namespace Test {
             Console.WriteLine($"{passthrough.Value} liters"); // 5 liters
         }
 
+        private void passthroughPropertySynchronizationContext() {
+            var backing = new StoredProperty<double>(3.0);
+            var passthrough = new PassthroughProperty<double>(backing) {
+                EventSynchronizationContext = SynchronizationContext.Current
+            };
+        }
+
         private void tentativeProperty() {
             var backing = new StoredProperty<int>(8);
             var tentative = new TentativeProperty<int>(backing, TimeSpan.FromMilliseconds(500));
@@ -38,7 +45,7 @@ namespace Test {
             backing.Value = 9;
             Console.WriteLine(tentative.Value); // 9
             tentative.Value = 10;
-            backing.Value = 11;
+            backing.Value   = 11;
             Console.WriteLine(tentative.Value); // 10
             Thread.Sleep(1000);
             Console.WriteLine(tentative.Value); // 11
@@ -91,7 +98,7 @@ namespace Test {
 
         internal Person(string firstName, string lastName) {
             this.firstName = new StoredProperty<string>(firstName);
-            this.lastName = new StoredProperty<string>(lastName);
+            this.lastName  = new StoredProperty<string>(lastName);
 
             fullName = DerivedProperty<string>.Create(this.firstName, this.lastName, (first, last) => $"{first} {last}");
         }

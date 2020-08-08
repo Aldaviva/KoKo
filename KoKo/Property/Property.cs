@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Threading;
 using KoKo.Events;
 
 namespace KoKo.Property {
@@ -10,8 +11,9 @@ namespace KoKo.Property {
     /// <inheritdoc cref="INotifyPropertyChanged"/>
     public interface Property: INotifyPropertyChanged {
 
-        object Value { get; }
+        object? Value { get; }
 
+        SynchronizationContext? EventSynchronizationContext { get; set; }
     }
 
     /// <summary>

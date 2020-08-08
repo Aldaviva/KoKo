@@ -96,6 +96,10 @@ private void Form1_Load(object sender, System.EventArgs e) {
 }
 ```
 
+```xml
+<Label Content="{Binding fullName.Value}" />
+```
+
 <a id="properties"></a>
 ## Properties
 
@@ -197,13 +201,23 @@ Console.WriteLine(nativePropertyObject.nativeProperty); // 9
 ### `PassthroughProperty`
 
 - Like a [`DerivedProperty`](#derivedProperty), except it depends on a single property and does not transform the value at all
+- *Optional:* You may want the property changed event handlers to run on a different thread than the one that caused the property value to change in the first place. This is especially important for updating UI controls, since Windows Forms and WPF only allow UI updates on the main thread, whether the update is imperative or declarative (data binding). To accomplish this, set `EventSynchronizationContext` on your `Property` to `SynchronizationContext.Current`. Now, whenever the Property value changes, even if the change happened on a background thread, the event handlers will run in that `SynchronizationContext`, so if you have a WPF control bound to that Property value, it will run in the correct WPF `Dispatcher`.
+    - All KoKo event handlers run synchronously, whether on the original thread or through a `SynchronizationContext`.
+    - All KoKo Properties can have their `EventSynchronizationContext` changed, not just `PassthroughProperty`.
 
 ```cs
-var a = new StoredProperty<double>(3.0);
-var b = new PassthroughProperty<double>(a);
-Console.WriteLine($"{b.Value} liters"); // 3 liters
-a.Value = 5.0;
-Console.WriteLine($"{b.Value} liters"); // 5 liters
+var backing = new StoredProperty<double>(3.0);
+var passthrough = new PassthroughProperty<double>(a);
+Console.WriteLine($"{passthrough.Value} liters"); // 3 liters
+backing.Value = 5.0;
+Console.WriteLine($"{passthrough.Value} liters"); // 5 liters
+```
+
+```cs
+var backing = new StoredProperty<double>(3.0);
+var passthrough = new PassthroughProperty<double>(backing) {
+    EventSynchronizationContext = SynchronizationContext.Current
+};
 ```
 
 <a id="tentativeproperty"></a>

@@ -13,20 +13,14 @@
         <PackageTags>knockout model property reactive</PackageTags>
         <PackageProjectUrl>https://github.com/Aldaviva/KoKo</PackageProjectUrl>
         <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
         <IncludeSource>true</IncludeSource>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
-      <NoWarn>1701;1702;1591</NoWarn>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
-      <NoWarn>1701;1702;1591</NoWarn>
+        <NoWarn>1701,1702,1591</NoWarn>
     </PropertyGroup>
 
 </Project>

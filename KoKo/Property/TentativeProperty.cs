@@ -18,7 +18,7 @@ namespace KoKo.Property {
         private readonly TimeSpan tentativeDuration;
         private readonly object locker = new object();
         private T effectiveValue;
-        private CancellationTokenSource cancellationTokenSource;
+        private CancellationTokenSource? cancellationTokenSource;
 
         /// <summary>
         /// If you set a value on this property, this object will use your custom value for a specified duration before automatically
@@ -32,14 +32,17 @@ namespace KoKo.Property {
                     cancellationTokenSource?.Cancel();
                     cancellationTokenSource?.Dispose();
                     cancellationTokenSource = new CancellationTokenSource();
-                    cancellationToken = cancellationTokenSource.Token;
+                    cancellationToken       = cancellationTokenSource.Token;
                 }
 
                 StoreValueAndFireChangeEvents(value);
 
                 Task.Delay(tentativeDuration, cancellationToken)
                     .ContinueWith(task => {
-                        StoreValueAndFireChangeEvents(parentProperty.Value);
+                        if (!cancellationToken.IsCancellationRequested) {
+                            StoreValueAndFireChangeEvents(parentProperty.Value);
+                        }
+
                         lock (locker) {
                             cancellationTokenSource?.Dispose();
                             cancellationTokenSource = null;
@@ -56,9 +59,9 @@ namespace KoKo.Property {
         /// <param name="tentativeDuration">When you set a custom value on this property using <c>Value</c>, how long should it take
         /// for the parent property's value to be reinstated?</param>
         public TentativeProperty(Property<T> parentProperty, TimeSpan tentativeDuration) {
-            this.parentProperty = parentProperty;
+            this.parentProperty    = parentProperty;
             this.tentativeDuration = tentativeDuration;
-            effectiveValue = parentProperty.Value;
+            effectiveValue         = parentProperty.Value;
 
             parentProperty.PropertyChanged += delegate {
                 if (cancellationTokenSource == null) {
@@ -72,7 +75,7 @@ namespace KoKo.Property {
             bool didValueChange;
 
             lock (locker) {
-                oldValue = effectiveValue;
+                oldValue       = effectiveValue;
                 didValueChange = !Equals(oldValue, newValue);
                 if (didValueChange) {
                     effectiveValue = newValue;

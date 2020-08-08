@@ -28,7 +28,7 @@
 
         /// <summary>
         /// Gets or sets the value stored in this property.
-        /// When setting, it fires a <see cref="SettableProperty{T}.PropertyChanged"/> event if then new value is different from
+        /// When setting, it fires a <c>PropertyChanged</c> event if then new value is different from
         /// the old value.
         /// </summary>
         public override T Value {

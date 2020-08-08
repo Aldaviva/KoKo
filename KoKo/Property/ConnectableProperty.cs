@@ -11,7 +11,7 @@
     /// to this</typeparam>
     public class ConnectableProperty<T>: UnsettableProperty<T> {
 
-        private Property<T> connectedProperty;
+        private Property<T>? connectedProperty;
         private readonly T disconnectedValue;
 
         /// <summary>
@@ -41,7 +41,7 @@
         /// To stop depending on the source, call <c>Disconnect()</c> or <c>Connect(null)</c>.
         /// </summary>
         /// <param name="source">The upstream dependency property that this object should get its value from.</param>
-        public void Connect(Property<T> source) {
+        public void Connect(Property<T>? source) {
             if (connectedProperty != null) {
                 connectedProperty.PropertyChanged -= ComputeValueAndFireChangeEvents;
             }

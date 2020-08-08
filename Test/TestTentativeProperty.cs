@@ -136,7 +136,7 @@ namespace Test {
 
             tentativeProperty.Value = 2;
             eventsFired.Should().Be(1, "one change event from explicitly setting value");
-            Thread.Sleep(shortDuration * 0.8);
+            // Thread.Sleep(shortDuration * 0.8);
             tentativeProperty.Dispose();
 
             Thread.Sleep(longDuration);
