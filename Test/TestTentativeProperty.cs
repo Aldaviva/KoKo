@@ -103,7 +103,7 @@ namespace Test {
             tentativeProperty.Value = 3;
             Thread.Sleep(shortDuration * 0.8);
             tentativeProperty.Value.Should().Be(3, "should not have reverted because we set a tentative value recently");
-            Thread.Sleep(shortDuration * 0.4);
+            Thread.Sleep(shortDuration * 0.5);
             tentativeProperty.Value.Should().Be(1, "enough time has passed that the property should have reverted to its parent value");
         }
 

@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using KoKo.Property;
+// ReSharper disable All
 
 namespace Test {
 
