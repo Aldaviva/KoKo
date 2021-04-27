@@ -4,10 +4,7 @@ using System.Reflection;
 
 namespace KoKo.Property {
 
-    /// <summary>
-    /// A property that can interoperate with native readonly C# properties that use <c>INotifyPropertyChanged</c>. For read-write C#
-    /// properties, see <see cref="NativeWritableProperty{T}"/>.
-    /// </summary>
+    /// <summary>A property that can interoperate with native readonly C# properties that use <c>INotifyPropertyChanged</c>. For read-write C# properties, see <see cref="NativeWritableProperty{T}" />.</summary>
     /// <typeparam name="T">The type of this property's value, which is also the type of the native C# property</typeparam>
     public class NativeReadableProperty<T>: UnsettableProperty<T> {
 
@@ -28,21 +25,17 @@ namespace KoKo.Property {
 
             nativeProperty = _nativeProperty;
             object untypedValue = _nativeProperty.GetValue(nativeObject);
-            if (untypedValue is T typedValue) {
+            if (untypedValue is T typedValue) { //if the value is null, this fails and throws a confusing error message
                 CachedValue = typedValue;
-            } else {
+            } else if (untypedValue is not null) {
                 throw new ArgumentException($"The property {nativePropertyName} of type {nativeObject.GetType().Name} is of type {_nativeProperty.PropertyType.Name}, " +
-                    $"but this KoKo NativeReadableProperty was constructed with generic type {typeof(T).Name}");
+                    $"but this KoKo {GetType().Name} was constructed with generic type {typeof(T).Name}");
             }
         }
 
-        /// <summary>
-        /// Create a KoKo property whose value and change events come from a native C# property.
-        /// </summary>
-        /// <param name="nativeObject">A C# object that implements <see cref="INotifyPropertyChanged"/></param>
-        /// <param name="nativePropertyName">The name of a regular C# property (not a KoKo property) on the <c>nativeObject</c> that
-        /// triggers <c>PropertyChanged</c> events on the object.<br/>To be more type-safe here, you can use
-        /// <c>nameof(MyNativeObjectClass.MyNativeProperty)</c> instead of a string <c>"MyNativeProperty"</c>.</param>
+        /// <summary>Create a KoKo property whose value and change events come from a native C# property.</summary>
+        /// <param name="nativeObject">A C# object that implements <see cref="INotifyPropertyChanged" /></param>
+        /// <param name="nativePropertyName">The name of a regular C# property (not a KoKo property) on the <c>nativeObject</c> that triggers <c>PropertyChanged</c> events on the object.<br />To be more type-safe here, you can use <c>nameof(MyNativeObjectClass.MyNativeProperty)</c> instead of a string <c>"MyNativeProperty"</c>.</param>
         public NativeReadableProperty(INotifyPropertyChanged nativeObject, string nativePropertyName): this((object) nativeObject, nativePropertyName) {
             nativeObject.PropertyChanged += NativePropertyChanged;
         }

@@ -4,18 +4,19 @@
 
 KoKo lets you create `Property` objects as members of your model classes.
 
-Unlike [native C# properties](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/properties), KoKo `Property` objects automatically fire change events. They can be composed from multiple other Properties without the dependencies being aware of the dependents, and without writing any boilerplate event handling code.
+Unlike [native C# properties](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/properties), KoKo `Property` objects automatically fire change events. They can be composed from multiple other Properties without the dependencies being aware of the dependents, and without writing any boilerplate event handling code. They are compatible with native C# properties and events, as well as with WPF and Windows Forms databinding.
 
-These properties are very similar to what you would find in Knockout, MobX, and WPF's `DependencyProperty`. They do not rely on a presentation layer like WPF, and they do not require you to import and understand a large, overblown, confusing library like .NET Reactive Extensions.
+These properties are very similar to what you would find in [Knockout](https://knockoutjs.com/), [MobX](https://mobx.js.org/), and WPF's [`DependencyProperty`](https://docs.microsoft.com/en-us/dotnet/api/system.windows.dependencyproperty). They do not rely on a presentation layer like WPF, and they do not require you to import and understand a large, overblown, confusing library like [.NET Reactive Extensions/Rx.NET](https://dotnetfoundation.org/projects/reactive-extensions).
 
-This library is a port of KoKo ("Knockout for Cocoa"), a Swift library by [@abrindam](https://github.com/abrindam).
+This library was ported from a Swift library by [@abrindam](https://github.com/abrindam) called KoKo ("Knockout for Cocoa"), which was later open-sourced under the name [Yoyo](https://github.com/bluejeans/Yoyo).
 
 <!-- MarkdownTOC autolink="true" bracket="round" autoanchor="true" levels="1,2,3" -->
 
+- [Requirements](#requirements)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Example](#example)
-- [Properties](#properties)
+- [Types of Properties](#types-of-properties)
     - [**`StoredProperty`**](#storedproperty)
     - [**`DerivedProperty`**](#derivedproperty)
     - [`ConnectableProperty`](#connectableproperty)
@@ -25,9 +26,17 @@ This library is a port of KoKo ("Knockout for Cocoa"), a Swift library by [@abri
     - [`NativeWritableProperty`](#nativewritableproperty)
     - [`PassthroughProperty`](#passthroughproperty)
     - [`TentativeProperty`](#tentativeproperty)
+- [Events on Properties](#events-on-properties)
+- [Threading](#threading)
 
 <!-- /MarkdownTOC -->
 
+<a id="requirements"></a>
+## Requirements
+- Any of the following runtimes
+    - .NET Framework 4.5.2 or later
+    - .NET Core 3.0 or later, including .NET 5 or later
+    - Any other runtime that supports [.NET Standard 2.1](https://docs.microsoft.com/en-us/dotnet/standard/net-standard)
 
 <a id="installation"></a>
 ## Installation
@@ -37,11 +46,19 @@ This library is a port of KoKo ("Knockout for Cocoa"), a Swift library by [@abri
 1. Under Browse, search for `KoKo`.
 1. Click the down arrow button for `KoKo`.
 
+```ps1
+# Alternately, using .NET CLI
+dotnet add package KoKo
+
+# Alternately, using Package Manager PowerShell
+Install-Package KoKo
+```
+
 <a id="usage"></a>
 ## Usage
 1. Create a `class` to act as your business or view model.
 1. Import the `KoKo.Property` namespace.
-1. Add some `Property` fields.
+1. Add some `Property` fields, one for each piece of data you want to represent.
 1. Get and set their `Value`.
 
 <a id="example"></a>
@@ -51,23 +68,22 @@ This is a just a silly, simple example. [Don't actually represent people's names
 ```cs
 using KoKo.Property;
 
-namespace Project1 {
+namespace MyProject {
 
-    internal class Person {
+    public class Person {
 
-        private readonly StoredProperty<string> firstName;
-        private readonly StoredProperty<string> lastName;
-        internal readonly Property<string> fullName;
+        private readonly StoredProperty<string> FirstName;
+        private readonly StoredProperty<string> LastName;
+        public readonly Property<string> FullName;
 
-        internal Person(string firstName, string lastName) {
-            this.firstName = new StoredProperty<string>(firstName);
-            this.lastName = new StoredProperty<string>(lastName);
-
-            fullName = DerivedProperty<string>.Create(this.firstName, this.lastName, (first, last) => $"{first} {last}");
+        public Person(string firstName, string lastName) {
+            FirstName = new StoredProperty<string>(firstName);
+            LastName = new StoredProperty<string>(lastName);
+            FullName = DerivedProperty<string>.Create(FirstName, LastName, (first, last) => $"{first} {last}");
         }
 
-        private void changeFirstName(string newFirstName) {
-            firstName.Value = newFirstName;
+        public void SetFirstName(string firstName) {
+            FirstName.Value = firstName;
         }
 
     }
@@ -78,30 +94,32 @@ Now you can get a `person` object's autogenerated full name,
 
 ```cs
 var person = new Person("Alice", "Smith");
-Console.WriteLine(person.fullName.Value); // Alice Smith
+Console.WriteLine(person.FullName.Value); // Alice Smith
 ```
 
 and if you change a dependency value, the dependent full name will be automatically updated.
 
 ```cs
-person.ChangeFirstName("Bob");
-Console.WriteLine(person.fullName.Value); // Bob Smith
+person.SetFirstName("Bob");
+Console.WriteLine(person.FullName.Value); // Bob Smith
 ```
 
 You can also use Properties with databinding:
 
+```xaml
+<!-- WPF -->
+<Label Content="{Binding FullName.Value}" />
+```
+
 ```cs
+// Windows Forms
 private void Form1_Load(object sender, System.EventArgs e) {
-    personNameLabel.DataBindings.Add("Text", model.fullName, "Value");
+    personNameLabel.DataBindings.Add("Text", model.FullName, "Value");
 }
 ```
 
-```xml
-<Label Content="{Binding fullName.Value}" />
-```
-
-<a id="properties"></a>
-## Properties
+<a id="types-of-properties"></a>
+## Types of Properties
 
 <a id="storedproperty"></a>
 ### **`StoredProperty`**
@@ -121,12 +139,14 @@ Console.WriteLine($"Hello {a.Value}"); // Hello world!
 <a id="derivedproperty"></a>
 ### **`DerivedProperty`**
 
-- Automatically calculates its value from other _dependency_ properties
-- Cannot set the value directly, but you can get the value just like a [`StoredProperty`](#storedProperty)
+- Automatically calculates its value from one or more other properties (_dependencies_), which can be any type of KoKo property
+- You don't need to manually invoke event handlers on the dependencies when their values change, this property will automatically recalculate its value instead
+- You cannot set its value directly, but you can get the value just like a [`StoredProperty`](#storedProperty)
+- Unlike other KoKo property classes, you construct `DerivedProperty` instances using the `DerivedProperty.Create()` factory method instead of a constructor. This allows you to pass a type-safe calculator function that doesn't capture the dependency properties.
 
 ```cs
 var b = new StoredProperty<int>(8);
-DerivedProperty<int> absoluteValueB = DerivedProperty<int>.Create(b, (bDependency) => System.Math.Abs(bDependency));
+DerivedProperty<int> absoluteValueB = DerivedProperty<int>.Create(b, (bValue) => System.Math.Abs(bValue));
 Console.WriteLine($"The absolute value of {b.Value} is {absoluteValueB.Value}."); // The absolute value of 8 is 8.
 b.Value = -9;
 Console.WriteLine($"The absolute value of {b.Value} is {absoluteValueB.Value}."); // The absolute value of -9 is 9.
@@ -176,11 +196,22 @@ Console.WriteLine($"Welcome, {currentUserFullName.Value}"); // Welcome, FirstNam
 
 <a id="nativereadableproperty"></a>
 ### `NativeReadableProperty`
-- Useful for interoperation with C# classes that expose property value changes using `INotifyPropertyChanged`
+- Useful for interoperation with C# classes, whether they expose property value changes using [`INotifyPropertyChanged`](https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.inotifypropertychanged) or other events
 
 ```cs
-var nativePropertyObject = new NativePropertyClass { nativeProperty = 8 };
-var kokoProperty = new NativeReadableProperty<int>(nativePropertyObject, nameof(NativePropertyClass.nativeProperty));
+// MyNativePropertyClass implements INotifyPropertyChanged and fires PropertyChanged events
+var nativePropertyObject = new MyNativePropertyClass { NativeProperty = 8 };
+var kokoProperty = new NativeReadableProperty<int>(nativePropertyObject, nameof(NativePropertyClass.NativeProperty));
+Console.WriteLine(kokoProperty.Value); // 8
+```
+
+- If the class does not implement `INotifyPropertyChanged`, you must specify the name of the event that is raised on property value changes
+
+```cs
+// MyNativePropertyClass2 does not implement INotifyPropertyChanged, and instead fires custom NativePropertyChanged events
+var nativePropertyObject = new MyNativePropertyClass2 { NativeProperty = 8 };
+var kokoProperty = new NativeReadableProperty<int>(nativePropertyObject, nameof(NativePropertyClass2.NativeProperty),
+    nameof(NativePropertyClass2.NativePropertyChanged));
 Console.WriteLine(kokoProperty.Value); // 8
 ```
 
@@ -190,20 +221,28 @@ Console.WriteLine(kokoProperty.Value); // 8
 - Useful when the native C# property has an accessible setter
 
 ```cs
-var nativePropertyObject = new NativePropertyClass { nativeProperty = 8 };
-var kokoProperty = new NativeWritableProperty<int>(nativePropertyObject, nameof(NativePropertyClass.nativeProperty));
+// MyNativePropertyClass implements INotifyPropertyChanged and fires PropertyChanged events
+var nativePropertyObject = new MyNativePropertyClass { NativeProperty = 8 };
+var kokoProperty = new NativeWritableProperty<int>(nativePropertyObject, nameof(NativePropertyClass.NativeProperty));
 Console.WriteLine(kokoProperty.Value); // 8
 kokoProperty.Value = 9;
-Console.WriteLine(nativePropertyObject.nativeProperty); // 9
+Console.WriteLine(nativePropertyObject.NativeProperty); // 9
+```
+
+```cs
+// MyNativePropertyClass2 does not implement INotifyPropertyChanged, and instead fires custom NativePropertyChanged events
+var nativePropertyObject = new MyNativePropertyClass2 { nativeProperty = 8 };
+var kokoProperty = new NativeWritableProperty<int>(nativePropertyObject, nameof(NativePropertyClass2.NativeProperty),
+    nameof(NativePropertyClass2.NativePropertyChanged));
+Console.WriteLine(kokoProperty.Value); // 8
+kokoProperty.Value = 9;
+Console.WriteLine(nativePropertyObject.NativeProperty); // 9
 ```
 
 <a id="passthroughproperty"></a>
 ### `PassthroughProperty`
 
 - Like a [`DerivedProperty`](#derivedProperty), except it depends on a single property and does not transform the value at all
-- *Optional:* You may want the property changed event handlers to run on a different thread than the one that caused the property value to change in the first place. This is especially important for updating UI controls, since Windows Forms and WPF only allow UI updates on the main thread, whether the update is imperative or declarative (data binding). To accomplish this, set `EventSynchronizationContext` on your `Property` to `SynchronizationContext.Current`. Now, whenever the Property value changes, even if the change happened on a background thread, the event handlers will run in that `SynchronizationContext`, so if you have a WPF control bound to that Property value, it will run in the correct WPF `Dispatcher`.
-    - All KoKo event handlers run synchronously, whether on the original thread or through a `SynchronizationContext`.
-    - All KoKo Properties can have their `EventSynchronizationContext` changed, not just `PassthroughProperty`.
 
 ```cs
 var backing = new StoredProperty<double>(3.0);
@@ -211,13 +250,6 @@ var passthrough = new PassthroughProperty<double>(a);
 Console.WriteLine($"{passthrough.Value} liters"); // 3 liters
 backing.Value = 5.0;
 Console.WriteLine($"{passthrough.Value} liters"); // 5 liters
-```
-
-```cs
-var backing = new StoredProperty<double>(3.0);
-var passthrough = new PassthroughProperty<double>(backing) {
-    EventSynchronizationContext = SynchronizationContext.Current
-};
 ```
 
 <a id="tentativeproperty"></a>
@@ -235,4 +267,49 @@ backing.Value = 11;
 Console.WriteLine(tentative.Value); // 10
 Thread.Sleep(1000);
 Console.WriteLine(tentative.Value); // 11
+```
+
+<a id="events-on-properties"></a>
+## Events on Properties
+
+You can subscribe to events that are fired when any `Property`'s value changes.
+
+If you want to react to a property changing by changing some other data, you may want to use a `DerivedProperty` or similar, because all value change dependencies will be consistent and probably simpler to understand.
+
+On the other hand, if you want to react to a property changing by taking some action, then you can listen for the `PropertyChanged` event:
+
+```cs
+var property = new StoredProperty<int>(1);
+property.PropertyChanged += (object sender, KoKoPropertyChangedEventArgs<int> args) => {
+    Console.WriteLine($"Property value changed from {args.OldValue} to {args.NewValue}.");
+};
+property.Value = 2; // Property value changed from 1 to 2.
+```
+
+If you need to pass a KoKo `Property` to a consumer that only accepts `INotifyPropertyChanged`, this interface is also implemented.
+
+```cs
+var property = new StoredProperty<int>(1);
+((INotifyPropertyChanged property).PropertyChanged += (object sender, PropertyChangedEventArgs args) => {
+    Console.WriteLine($"Property value changed to {property.Value}.");
+};
+property.Value = 2; // Property value changed to 2.
+```
+
+<a id="threading"></a>
+## Threading
+
+You may want the property changed event handlers to run on a different thread than the one that caused the property value to change in the first place. This is especially important for updating UI controls, since Windows Forms and WPF only allow UI updates on the main thread, whether the update is imperative or declarative (data binding).
+
+To accomplish this, set `EventSynchronizationContext` on your KoKo `Property` to [`SynchronizationContext.Current`](https://docs.microsoft.com/en-us/dotnet/api/system.threading.synchronizationcontext.current).
+
+Now, whenever the Property value changes, even if the change happened on a background thread, the event handlers will run in that [`SynchronizationContext`](https://docs.microsoft.com/en-us/dotnet/api/system.threading.synchronizationcontext), so if you have a WPF control bound to that Property value, it will run in the correct WPF [`Dispatcher`](https://docs.microsoft.com/en-us/dotnet/api/system.windows.threading.dispatcher).
+
+- All KoKo event handlers run synchronously, whether on the original thread or through a `SynchronizationContext`
+- All KoKo Properties can have their `EventSynchronizationContext` changed, not just `PassthroughProperty`
+
+```cs
+var backing = new StoredProperty<double>(3.0);
+var passthrough = new PassthroughProperty<double>(backing);
+passthrough.EventSynchronizationContext = SynchronizationContext.Current;
 ```

@@ -53,9 +53,20 @@ namespace Test {
         [Fact]
         public void WrongType() {
             var myNativeProperty = new MyReadableNativePropertyClass();
+            myNativeProperty.ChangeGreeting("hi");
 
             // ReSharper disable once ObjectCreationAsStatement we want to see the constructor throw an exception
             Action thrower = () => new NativeReadableProperty<int>(myNativeProperty, nameof(myNativeProperty.Greeting));
+            thrower.Should().Throw<ArgumentException>();
+        }
+
+        [Fact]
+        public void WrongProperty() {
+            var myNativeProperty = new MyReadableNativePropertyClass();
+            myNativeProperty.ChangeGreeting("hi");
+
+            // ReSharper disable once ObjectCreationAsStatement we want to see the constructor throw an exception
+            Action thrower = () => new NativeReadableProperty<int>(myNativeProperty, nameof(myNativeProperty.Greeting) + "_wrong");
             thrower.Should().Throw<ArgumentException>();
         }
 
@@ -105,6 +116,15 @@ namespace Test {
             kokoProperty.Value.Should().Be("howdy");
             kokoEvents.Should().Be(1);
             nativeEvents.Should().Be(1);
+        }
+
+        [Fact]
+        public void WrongEventName() {
+            var myNativeProperty = new MyNonNotifyingNativePropertyClass();
+            myNativeProperty.ChangeGreeting("hello");
+            // ReSharper disable once ObjectCreationAsStatement constructor throws
+            Action thrower = () => new NativeReadableProperty<string>(myNativeProperty, nameof(myNativeProperty.Greeting), nameof(myNativeProperty.GreetingChanged) + "_wrong");
+            thrower.Should().Throw<ArgumentException>();
         }
 
     }

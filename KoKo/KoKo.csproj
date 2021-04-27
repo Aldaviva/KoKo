@@ -1,16 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>netstandard2.1;net45</TargetFrameworks>
+        <TargetFrameworks>netstandard2.1;net452</TargetFrameworks>
         <Description>Knockout for Cocoa, for C#</Description>
-        <Copyright>2020 Ben Hutchison</Copyright>
+        <Copyright>© 2021 Ben Hutchison</Copyright>
         <Version>2.0.4</Version>
         <Title>KoKo</Title>
         <Authors>Ben Hutchison</Authors>
         <Company>Ben Hutchison</Company>
         <RepositoryUrl>https://github.com/Aldaviva/KoKo.git</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
-        <PackageTags>knockout model property reactive</PackageTags>
+        <PackageTags>knockout model property reactive state-management observable reactive-programming</PackageTags>
         <PackageProjectUrl>https://github.com/Aldaviva/KoKo</PackageProjectUrl>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>

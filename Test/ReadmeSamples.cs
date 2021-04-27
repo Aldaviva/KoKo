@@ -2,7 +2,9 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading;
+using KoKo.Events;
 using KoKo.Property;
+
 // ReSharper disable All
 
 namespace Test {
@@ -17,15 +19,15 @@ namespace Test {
         }
 
         private void derivedProperty() {
-            var backing = new StoredProperty<int>(8);
-            DerivedProperty<int> derived = DerivedProperty<int>.Create(backing, (bValue) => System.Math.Abs(bValue));
+            var                  backing = new StoredProperty<int>(8);
+            DerivedProperty<int> derived = DerivedProperty<int>.Create(backing, (bValue) => Math.Abs(bValue));
             Console.WriteLine($"The absolute value of {backing.Value} is {derived.Value}."); // The absolute value of 8 is 8.
             backing.Value = -9;
             Console.WriteLine($"The absolute value of {backing.Value} is {derived.Value}."); // The absolute value of -9 is 9.
         }
 
         private void passthroughProperty() {
-            var backing = new StoredProperty<double>(3.0);
+            var backing     = new StoredProperty<double>(3.0);
             var passthrough = new PassthroughProperty<double>(backing);
             Console.WriteLine($"{passthrough.Value} liters"); // 3 liters
             backing.Value = 5.0;
@@ -40,7 +42,7 @@ namespace Test {
         }
 
         private void tentativeProperty() {
-            var backing = new StoredProperty<int>(8);
+            var backing   = new StoredProperty<int>(8);
             var tentative = new TentativeProperty<int>(backing, TimeSpan.FromMilliseconds(500));
             Console.WriteLine(tentative.Value); // 8
             backing.Value = 9;
@@ -54,7 +56,7 @@ namespace Test {
 
         private void connectableProperty() {
             var connectable = new ConnectableProperty<int>(0);
-            var a = new StoredProperty<int>(8);
+            var a           = new StoredProperty<int>(8);
             Console.WriteLine(connectable.Value); // 0
             connectable.Connect(a);
             Console.WriteLine(connectable.Value); // 8
@@ -69,33 +71,41 @@ namespace Test {
         }
 
         private void multiLevelProperty() {
-            var person = new Person("FirstName", "LastName");
-            var currentUser = new StoredProperty<Person>(person);
+            var person              = new Person("FirstName", "LastName");
+            var currentUser         = new StoredProperty<Person>(person);
             var currentUserFullName = new MultiLevelProperty<string>(() => currentUser.Value.fullName);
             Console.WriteLine($"Welcome, {currentUserFullName.Value}"); // Welcome, FirstName LastName
         }
 
         private void nativeReadableProperty() {
             var nativePropertyObject = new NativePropertyClass { nativeProperty = 8 };
-            var kokoProperty = new NativeReadableProperty<int>(nativePropertyObject, nameof(NativePropertyClass.nativeProperty));
+            var kokoProperty         = new NativeReadableProperty<int>(nativePropertyObject, nameof(NativePropertyClass.nativeProperty));
             Console.WriteLine(kokoProperty.Value); // 8
         }
 
         private void nativeWritableProperty() {
             var nativePropertyObject = new NativePropertyClass { nativeProperty = 8 };
-            var kokoProperty = new NativeWritableProperty<int>(nativePropertyObject, nameof(NativePropertyClass.nativeProperty));
+            var kokoProperty         = new NativeWritableProperty<int>(nativePropertyObject, nameof(NativePropertyClass.nativeProperty));
             Console.WriteLine(kokoProperty.Value); // 8
             kokoProperty.Value = 9;
             Console.WriteLine(nativePropertyObject.nativeProperty); // 9
+        }
+
+        private void changeHandler() {
+            var property = new StoredProperty<int>();
+            property.PropertyChanged += (object sender, KoKoPropertyChangedEventArgs<int> args) => { Console.WriteLine($"Property value changed from {args.OldValue} to {args.NewValue}."); };
+
+            INotifyPropertyChanged property2 = property;
+            property2.PropertyChanged += (object sender, PropertyChangedEventArgs args) => { Console.WriteLine($"Property value changed to {property.Value}."); };
         }
 
     }
 
     internal class Person {
 
-        private readonly StoredProperty<string> firstName;
-        private readonly StoredProperty<string> lastName;
-        internal readonly Property<string> fullName;
+        private readonly  StoredProperty<string> firstName;
+        private readonly  StoredProperty<string> lastName;
+        internal readonly Property<string>       fullName;
 
         internal Person(string firstName, string lastName) {
             this.firstName = new StoredProperty<string>(firstName);

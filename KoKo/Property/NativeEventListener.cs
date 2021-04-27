@@ -15,17 +15,17 @@ namespace KoKo.Property {
         private static readonly IDictionary<Type[], Type> EventProxyStructCache = new Dictionary<Type[], Type>();
 
         private static ModuleBuilder? _moduleBuilder;
-        private static long           _classNameCounter = 0;
+        private static long           _classNameCounter;
 
         public event EventHandler? OnEvent;
 
         public NativeEventListener(object nativeObject, string nativeEventName) {
-            EventInfo nativeEvent = nativeObject.GetType().GetTypeInfo().GetEvent(nativeEventName);
+            EventInfo? nativeEvent = nativeObject.GetType().GetTypeInfo().GetEvent(nativeEventName);
 
-            Type        handlerType  = nativeEvent.EventHandlerType;
-            MethodInfo? invokeMethod = handlerType.GetMethod("Invoke");
+            Type?       handlerType  = nativeEvent?.EventHandlerType;
+            MethodInfo? invokeMethod = handlerType?.GetMethod("Invoke");
             if (invokeMethod == null) {
-                throw new ArgumentException($"Event {nativeObject.GetType().Name}.{nativeEventName} does not have an Invoke() method");
+                throw new ArgumentException($"Event {nativeObject.GetType().Name}.{nativeEventName} could not be found");
             }
 
             ParameterInfo[] parameterInfo  = invokeMethod.GetParameters();
