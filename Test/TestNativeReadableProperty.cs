@@ -103,6 +103,23 @@ namespace Test {
         }
 
         [Fact]
+        public void NonNotifyingPropertyImplicitEventName() {
+            int nativeEvents = 0, kokoEvents = 0;
+
+            var myNativeProperty = new MyNonNotifyingNativePropertyClass();
+            myNativeProperty.ChangeGreeting("hello");
+            myNativeProperty.GreetingChanged += delegate { nativeEvents++; };
+
+            var kokoProperty = new NativeReadableProperty<string>(myNativeProperty, nameof(myNativeProperty.Greeting));
+            kokoProperty.PropertyChanged += delegate { kokoEvents++; };
+
+            myNativeProperty.ChangeGreeting("howdy");
+            kokoProperty.Value.Should().Be("howdy");
+            kokoEvents.Should().Be(1);
+            nativeEvents.Should().Be(1);
+        }
+
+        [Fact]
         public void WindowsFormsPropertyValueChanged() {
             int nativeEvents = 0, kokoEvents = 0;
 

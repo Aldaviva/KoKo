@@ -139,6 +139,23 @@ namespace Test {
         }
 
         [Fact]
+        public void NonNotifyingPropertyImplicitEventName() {
+            int nativeEvents = 0, kokoEvents = 0;
+
+            var myNativeProperty = new MyWritableNonNotifyingNativePropertyClass();
+            myNativeProperty.Greeting        =  "hello";
+            myNativeProperty.GreetingChanged += delegate { nativeEvents++; };
+
+            var kokoProperty = new NativeWritableProperty<string>(myNativeProperty, nameof(myNativeProperty.Greeting));
+            kokoProperty.PropertyChanged += delegate { kokoEvents++; };
+
+            myNativeProperty.Greeting = "howdy";
+            kokoProperty.Value.Should().Be("howdy");
+            kokoEvents.Should().Be(1);
+            nativeEvents.Should().Be(1);
+        }
+
+        [Fact]
         public void NonNotifyingPropertyValueSettable() {
             int nativeEvents = 0, kokoEvents = 0;
 
