@@ -11,8 +11,8 @@
     /// to this</typeparam>
     public class ConnectableProperty<T>: UnsettableProperty<T> {
 
-        private Property<T>? connectedProperty;
-        private readonly T disconnectedValue;
+        private          Property<T>? connectedProperty;
+        private readonly T            disconnectedValue;
 
         /// <summary>
         /// The value of the currently-connected source property. If no source is currently connected to this property, the
@@ -26,7 +26,7 @@
         /// </summary>
         /// <param name="disconnectedValue">The value to return for this property when it is first created and after it has been
         /// disconnected. When this property is connected, this value is not used.</param>
-        public ConnectableProperty(T disconnectedValue = default): base(disconnectedValue) {
+        public ConnectableProperty(T disconnectedValue = default!): base(disconnectedValue) {
             this.disconnectedValue = disconnectedValue;
         }
 

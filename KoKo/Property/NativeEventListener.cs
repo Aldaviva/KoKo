@@ -24,7 +24,7 @@ namespace KoKo.Property {
 
             Type?       handlerType  = nativeEvent?.EventHandlerType;
             MethodInfo? invokeMethod = handlerType?.GetMethod("Invoke");
-            if (invokeMethod == null) {
+            if (nativeEvent == null || handlerType == null || invokeMethod == null) {
                 throw new ArgumentException($"Event {nativeObject.GetType().Name}.{nativeEventName} could not be found");
             }
 

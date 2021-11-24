@@ -44,7 +44,8 @@ namespace KoKo.Property {
         private NativeWritableProperty(object nativeObject, string nativePropertyName) {
             this.nativeObject       = nativeObject;
             this.nativePropertyName = nativePropertyName;
-            nativeProperty          = nativeObject.GetType().GetTypeInfo().GetDeclaredProperty(nativePropertyName);
+            nativeProperty = nativeObject.GetType().GetTypeInfo().GetProperty(nativePropertyName)
+                ?? throw new ArgumentException($"The property {nativePropertyName} of type {nativeObject.GetType().Name} does not exist.");
 
             if (!nativeProperty.CanRead) {
                 throw new ArgumentException($"The property {nativeObject.GetType()}.{nativePropertyName} does not have a visible get accessor.");

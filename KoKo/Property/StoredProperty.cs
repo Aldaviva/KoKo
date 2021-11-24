@@ -22,7 +22,7 @@
         /// Console.WriteLine($"Hello {name.Value}"); // Hello Ben
         /// </code>
         /// </example>
-        public StoredProperty(T initialValue = default) {
+        public StoredProperty(T initialValue = default!) {
             StoredValue = initialValue;
         }
 
@@ -34,10 +34,10 @@
         public override T Value {
             get => StoredValue;
             set {
-                T oldValue;
+                T    oldValue;
                 bool didValueChange;
                 lock (storedValueLock) {
-                    oldValue = StoredValue;
+                    oldValue       = StoredValue;
                     didValueChange = !Equals(oldValue, value);
                     if (didValueChange) {
                         StoredValue = value;
