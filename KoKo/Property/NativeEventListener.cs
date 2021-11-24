@@ -19,6 +19,7 @@ namespace KoKo.Property {
 
         public event EventHandler? OnEvent;
 
+        /// <exception cref="ArgumentException">If the named event cannot be found on the given object.</exception>
         public NativeEventListener(object nativeObject, string nativeEventName) {
             EventInfo? nativeEvent = nativeObject.GetType().GetTypeInfo().GetEvent(nativeEventName);
 
@@ -33,7 +34,7 @@ namespace KoKo.Property {
 
             if (!EventProxyStructCache.TryGetValue(parameterTypes, out Type eventProxyStructType)) {
                 if (_moduleBuilder == null) {
-                    AssemblyName    assemblyName    = new AssemblyName("DynamicTypes");
+                    AssemblyName    assemblyName    = new("DynamicTypes");
                     AssemblyBuilder assemblyBuilder = AssemblyBuilder.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
                     _moduleBuilder = assemblyBuilder.DefineDynamicModule(assemblyName.Name);
                 }

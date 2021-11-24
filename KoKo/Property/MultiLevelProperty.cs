@@ -15,7 +15,7 @@ namespace KoKo.Property {
     public class MultiLevelProperty<T>: UnsettableProperty<T> {
 
         private readonly PropertyInstrumentingVisitor instrumentor;
-        private readonly Func<Property<T>> instrumentedPropertyExpression;
+        private readonly Func<Property<T>>            instrumentedPropertyExpression;
 
         public override T Value => CachedValue;
 
@@ -23,10 +23,10 @@ namespace KoKo.Property {
         /// Create a property whose value is obtained from a specified property accessor chain
         /// </summary>
         /// <param name="multiLevelPropertyExpression">A function expression consisting of a chain of property reads that return a leaf property. This property's value will be taken from that leaf's property.<br/><code>new MultiLevelProperty(() => currentSession.Value.currentUser.Value.fullName)</code></param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public MultiLevelProperty(Expression<Func<Property<T>>> multiLevelPropertyExpression): base(default!) {
-            instrumentor = new PropertyInstrumentingVisitor();
-            instrumentedPropertyExpression = ((Expression<Func<Property<T>>>?) instrumentor.Visit(multiLevelPropertyExpression))?.Compile() ??
-                                             throw new ArgumentOutOfRangeException(nameof(multiLevelPropertyExpression));
+            instrumentor                   = new PropertyInstrumentingVisitor();
+            instrumentedPropertyExpression = ((Expression<Func<Property<T>>>) instrumentor.Visit(multiLevelPropertyExpression)!).Compile();
 
             CachedValue = instrumentedPropertyExpression().Value;
 
@@ -57,10 +57,10 @@ namespace KoKo.Property {
 
     internal class PropertyInstrumentingVisitor: ExpressionVisitor {
 
-        private static readonly TypeInfo PropertyTypeInfo = typeof(Property).GetTypeInfo();
-        private static readonly MethodInfo InstrumentPropertyAccessorMethod = typeof(PropertyInstrumentingVisitor).GetRuntimeMethod("InstrumentPropertyAccessor", new[] { typeof(Property) });
+        private static readonly TypeInfo   PropertyTypeInfo                 = typeof(Property).GetTypeInfo();
+        private static readonly MethodInfo InstrumentPropertyAccessorMethod = typeof(PropertyInstrumentingVisitor).GetRuntimeMethod(nameof(InstrumentPropertyAccessor), new[] { typeof(Property) });
 
-        private readonly List<Property> propertiesWritable = new List<Property>();
+        private readonly List<Property> propertiesWritable = new();
         public IEnumerable<Property> Properties => propertiesWritable;
 
         private readonly ISet<MemberExpression> instrumentedNodes = new HashSet<MemberExpression>();
@@ -73,7 +73,7 @@ namespace KoKo.Property {
         protected override Expression VisitMember(MemberExpression node) {
             if (!instrumentedNodes.Contains(node) && PropertyTypeInfo.IsAssignableFrom(node.Type.GetTypeInfo())) {
                 MethodCallExpression interceptCall = Expression.Call(Expression.Constant(this), InstrumentPropertyAccessorMethod, node);
-                UnaryExpression castCall = Expression.TypeAs(interceptCall, node.Type);
+                UnaryExpression      castCall      = Expression.TypeAs(interceptCall, node.Type);
                 instrumentedNodes.Add(node);
                 return VisitUnary(castCall);
             } else {

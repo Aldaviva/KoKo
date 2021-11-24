@@ -8,7 +8,7 @@
     /// See also <seealso cref="DerivedProperty{T}"/>.
     public class StoredProperty<T>: SettableProperty<T> {
 
-        private readonly object storedValueLock = new object();
+        private readonly object storedValueLock = new();
 
         internal T StoredValue;
 

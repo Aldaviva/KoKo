@@ -6,7 +6,7 @@ namespace KoKo.Property {
 
     internal class PropertyHelper<T>: KoKoNotifyPropertyChanged<T> {
 
-        private readonly object propertyChanged2Lock = new object();
+        private readonly object propertyChanged2Lock = new();
 
         public SynchronizationContext? EventSynchronizationContext { get; set; }
 

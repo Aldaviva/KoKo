@@ -14,11 +14,11 @@ namespace KoKo.Property {
     /// overriding values you may set.</typeparam>
     public class TentativeProperty<T>: SettableProperty<T>, IDisposable {
 
-        private readonly Property<T> parentProperty;
-        private readonly TimeSpan tentativeDuration;
-        private readonly object locker = new object();
-        private T effectiveValue;
-        private CancellationTokenSource? cancellationTokenSource;
+        private readonly Property<T>              parentProperty;
+        private readonly TimeSpan                 tentativeDuration;
+        private readonly object                   locker = new();
+        private          T                        effectiveValue;
+        private          CancellationTokenSource? cancellationTokenSource;
 
         /// <summary>
         /// If you set a value on this property, this object will use your custom value for a specified duration before automatically
@@ -71,7 +71,7 @@ namespace KoKo.Property {
         }
 
         private void StoreValueAndFireChangeEvents(T newValue) {
-            T oldValue;
+            T    oldValue;
             bool didValueChange;
 
             lock (locker) {

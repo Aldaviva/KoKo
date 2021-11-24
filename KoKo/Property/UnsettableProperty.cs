@@ -13,8 +13,8 @@ namespace KoKo.Property {
     /// See also <seealso cref="DerivedProperty{T}"/>.
     public abstract class UnsettableProperty<T>: Property<T> {
 
-        private readonly object cachedValueLock = new object();
-        private readonly PropertyHelper<T> helper = new PropertyHelper<T>();
+        private readonly object            cachedValueLock = new();
+        private readonly PropertyHelper<T> helper          = new();
 
         protected T CachedValue;
 
@@ -47,7 +47,7 @@ namespace KoKo.Property {
         protected abstract T ComputeValue();
 
         protected void ComputeValueAndFireChangeEvents(object? sender = null, PropertyChangedEventArgs? propertyChangedEventArgs = null) {
-            T oldValue, newValue = ComputeValue();
+            T    oldValue, newValue = ComputeValue();
             bool didValueChange;
 
             // Can't use wait-free Interlocked.Exchange<T>(T, T) because T isn't guaranteed to be a reference type, it might be an int or other value type, so use a lock to ensure we are comparing a consistent snapshot of the old and new values

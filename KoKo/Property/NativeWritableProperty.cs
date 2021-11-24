@@ -8,7 +8,7 @@ namespace KoKo.Property {
     /// <typeparam name="T">The type of this property's value, which is also the type of the native C# property</typeparam>
     public class NativeWritableProperty<T>: SettableProperty<T> {
 
-        private readonly object       cachedValueLock = new object();
+        private readonly object       cachedValueLock = new();
         private readonly object       nativeObject;
         private readonly string       nativePropertyName;
         private readonly PropertyInfo nativeProperty;
@@ -41,6 +41,7 @@ namespace KoKo.Property {
             }
         }
 
+        /// <exception cref="ArgumentException">if the native property does not exist on the given object, or if its getter isn't accessible, or if its value's type does not match <code>&lt;T&gt;</code></exception>
         private NativeWritableProperty(object nativeObject, string nativePropertyName) {
             this.nativeObject       = nativeObject;
             this.nativePropertyName = nativePropertyName;
@@ -65,6 +66,7 @@ namespace KoKo.Property {
         /// <summary>Create a KoKo property whose value and change events come from a native C# property.</summary>
         /// <param name="nativeObject">A C# object that implements <see cref="INotifyPropertyChanged" /></param>
         /// <param name="nativePropertyName">The name of a regular C# property (not a KoKo property) on the <c>nativeObject</c> that triggers <c>PropertyChanged</c> events on the object.<br />To be more type-safe here, you can use <c>nameof(MyNativeObjectClass.MyNativeProperty)</c> instead of a string <c>"MyNativeProperty"</c>.</param>
+        /// <exception cref="ArgumentException">if the native property does not exist on the given object, or if its getter isn't accessible, or if its value's type does not match <code>&lt;T&gt;</code></exception>
         public NativeWritableProperty(INotifyPropertyChanged nativeObject, string nativePropertyName): this((object) nativeObject, nativePropertyName) {
             nativeObject.PropertyChanged += NativePropertyChanged;
         }
@@ -73,9 +75,10 @@ namespace KoKo.Property {
         /// <param name="nativeObject">A C# object that does not implement <see cref="INotifyPropertyChanged" /></param>
         /// <param name="nativePropertyName">The name of a regular C# property (not a KoKo property) on the <c>nativeObject</c> that triggers an event on the object.<br />To be more type-safe here, you can use <c>nameof(MyNativeObjectClass.MyNativeProperty)</c> instead of a string <c>"MyNativeProperty"</c>.</param>
         /// <param name="nativeEventName">The name of the event that is raised on <c>nativeObject</c> when the value of the <c>nativePropertyName</c> property is changed.<br />To be more type-safe here, you can use <c>nameof(MyNativeObjectClass.MyNativePropertyChanged)</c> instead of a string <c>"MyNativePropertyChanged"</c>.<br />If this parameter is omitted or null, it defaults to appending <c>"Changed"</c> to the <c>nativePropertyName</c> parameter, e.g. <c>new NativeWritableProperty&lt;string&gt;(myToolStripItem, nameof(ToolStripItem.Text))</c> will listen for <c>TextChanged</c> events on <c>myToolStripItem</c>.</param>
+        /// <exception cref="ArgumentException">if the native property does not exist on the given object, or if its getter isn't accessible, or if its value's type does not match <code>&lt;T&gt;</code></exception>
         public NativeWritableProperty(object nativeObject, string nativePropertyName, string? nativeEventName = null): this(nativeObject, nativePropertyName) {
             nativeEventName ??= nativePropertyName + "Changed";
-            var nativeEventListener = new NativeEventListener(nativeObject, nativeEventName);
+            NativeEventListener? nativeEventListener = new(nativeObject, nativeEventName);
             nativeEventListener.OnEvent += delegate { NativePropertyChanged(); };
         }
 

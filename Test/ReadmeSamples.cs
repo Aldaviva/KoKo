@@ -81,6 +81,7 @@ namespace Test {
             var nativePropertyObject = new NativePropertyClass { nativeProperty = 8 };
             var kokoProperty         = new NativeReadableProperty<int>(nativePropertyObject, nameof(NativePropertyClass.nativeProperty));
             Console.WriteLine(kokoProperty.Value); // 8
+
         }
 
         private void nativeWritableProperty() {
@@ -103,9 +104,9 @@ namespace Test {
 
     internal class Person {
 
-        private readonly  StoredProperty<string> firstName;
-        private readonly  StoredProperty<string> lastName;
-        internal readonly Property<string>       fullName;
+        private StoredProperty<string> firstName { get; }
+        private StoredProperty<string> lastName { get; }
+        internal Property<string> fullName { get; }
 
         internal Person(string firstName, string lastName) {
             this.firstName = new StoredProperty<string>(firstName);

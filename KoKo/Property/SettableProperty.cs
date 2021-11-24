@@ -11,7 +11,7 @@ namespace KoKo.Property {
     /// See also <seealso cref="StoredProperty{T}"/>.
     public abstract class SettableProperty<T>: Property<T> {
 
-        private readonly PropertyHelper<T> helper = new PropertyHelper<T>();
+        private readonly PropertyHelper<T> helper = new();
 
         /// <summary>
         /// A gettable and settable property value.
