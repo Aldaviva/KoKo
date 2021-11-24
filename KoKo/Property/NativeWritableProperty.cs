@@ -78,7 +78,7 @@ namespace KoKo.Property {
         /// <exception cref="ArgumentException">if the native property does not exist on the given object, or if its getter isn't accessible, or if its value's type does not match <code>&lt;T&gt;</code></exception>
         public NativeWritableProperty(object nativeObject, string nativePropertyName, string? nativeEventName = null): this(nativeObject, nativePropertyName) {
             nativeEventName ??= nativePropertyName + "Changed";
-            NativeEventListener? nativeEventListener = new(nativeObject, nativeEventName);
+            NativeEventListener nativeEventListener = new(nativeObject, nativeEventName);
             nativeEventListener.OnEvent += delegate { NativePropertyChanged(); };
         }
 

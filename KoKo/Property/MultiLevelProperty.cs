@@ -23,7 +23,6 @@ namespace KoKo.Property {
         /// Create a property whose value is obtained from a specified property accessor chain
         /// </summary>
         /// <param name="multiLevelPropertyExpression">A function expression consisting of a chain of property reads that return a leaf property. This property's value will be taken from that leaf's property.<br/><code>new MultiLevelProperty(() => currentSession.Value.currentUser.Value.fullName)</code></param>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public MultiLevelProperty(Expression<Func<Property<T>>> multiLevelPropertyExpression): base(default!) {
             instrumentor                   = new PropertyInstrumentingVisitor();
             instrumentedPropertyExpression = ((Expression<Func<Property<T>>>) instrumentor.Visit(multiLevelPropertyExpression)!).Compile();
