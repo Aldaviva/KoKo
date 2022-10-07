@@ -23,7 +23,7 @@ namespace KoKo.Property {
 #endif
 
         /// <exception cref="ArgumentException">If the named event cannot be found on the given object.</exception>
-        /// <exception cref="PlatformNotSupportedException">If you are running on .NET Standard 2.0. To use this class, target at least .NET Framework 4.5.2, .NET Standard 2.1, or .NET Core 3.0.</exception>
+        /// <exception cref="PlatformNotSupportedException">If you are running on .NET Standard 2.0. To use this class, target at least .NET Framework 4.6.2, .NET Standard 2.1, or .NET Core 3.0.</exception>
         public NativeEventListener(object nativeObject, string nativeEventName) {
 #if !NETSTANDARD2_0
             EventInfo? nativeEvent = nativeObject.GetType().GetTypeInfo().GetEvent(nativeEventName);
@@ -69,7 +69,7 @@ namespace KoKo.Property {
             nativeEvent.AddEventHandler(nativeObject, eventHandlerDelegate);
 # else
             throw new PlatformNotSupportedException("NativeEventListener is not supported on .NET Standard 2.0 because ModuleBuilder is unavailable. To use this class, please target .NET Framework " +
-                "4.5.2 or later, or .NET Standard 2.1, or .NET (Core) 3.0 or later.");
+                "4.6.2 or later, or .NET Standard 2.1, or .NET (Core) 3.0 or later.");
 #endif
         }
 

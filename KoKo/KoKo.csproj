@@ -2,25 +2,40 @@
 
     <PropertyGroup>
         <TargetFrameworks>netstandard2.1;netstandard2.0;net462</TargetFrameworks>
-        <Description>Knockout for Cocoa, for C#</Description>
+        <Description>Declarative automatic state management in .NET with no boilerplate. Never deal with INotifyPropertyChanged again.</Description>
         <Copyright>© 2022 Ben Hutchison</Copyright>
         <Version>2.2.0</Version>
         <Title>KoKo</Title>
         <Authors>Ben Hutchison</Authors>
         <Company>Ben Hutchison</Company>
         <RepositoryUrl>https://github.com/Aldaviva/KoKo.git</RepositoryUrl>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <RepositoryType>git</RepositoryType>
-        <PackageTags>knockout model property reactive state-management observable reactive-programming</PackageTags>
+        <PackageTags>knockout model property reactive state-management observable reactive-programming inotifypropertychanged</PackageTags>
+        <PackageIcon>icon.png</PackageIcon>
         <PackageProjectUrl>https://github.com/Aldaviva/KoKo</PackageProjectUrl>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
         <IncludeSource>true</IncludeSource>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-        <GenerateDocumentationFile>True</GenerateDocumentationFile>
+        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <NoWarn>1701,1702,1591</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="icon.png" Pack="true" PackagePath="\" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+    </ItemGroup>
+
+    <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+        <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
     </PropertyGroup>
 
 </Project>

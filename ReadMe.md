@@ -1,4 +1,7 @@
-# KoKo
+<img src="https://raw.githubusercontent.com/Aldaviva/KoKo/master/KoKo/icon.png" height="23" alt="KoKo logo" /> KoKo
+===
+
+[![Nuget](https://img.shields.io/nuget/v/KoKo?logo=nuget)](https://www.nuget.org/packages/KoKo/) [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Aldaviva/KoKo/.NET?logo=github)](https://github.com/Aldaviva/KoKo/actions/workflows/dotnetpackage.yml) [![Coveralls](https://img.shields.io/coveralls/github/Aldaviva/KoKo?logo=coveralls)](https://coveralls.io/github/Aldaviva/KoKo?branch=master)
 
 *Knockout for Cocoa, for C#*
 
@@ -9,6 +12,9 @@ Unlike [native C# properties](https://docs.microsoft.com/en-us/dotnet/csharp/pro
 These properties are very similar to what you would find in [Knockout](https://knockoutjs.com/), [MobX](https://mobx.js.org/), and WPF's [`DependencyProperty`](https://docs.microsoft.com/en-us/dotnet/api/system.windows.dependencyproperty). They do not rely on a presentation layer like WPF, and they do not require you to import and understand a large, overblown, confusing library like [.NET Reactive Extensions/Rx.NET](https://dotnetfoundation.org/projects/reactive-extensions).
 
 This library was ported from a Swift library by [@abrindam](https://github.com/abrindam) called KoKo ("Knockout for Cocoa"), which was later open-sourced under the name [Yoyo](https://github.com/bluejeans/Yoyo).
+
+<p><details>
+    <summary><strong>Table of Contents</strong></summary>
 
 <!-- MarkdownTOC autolink="true" bracket="round" autoanchor="true" levels="1,2,3" -->
 
@@ -30,13 +36,14 @@ This library was ported from a Swift library by [@abrindam](https://github.com/a
 - [Threading](#threading)
 
 <!-- /MarkdownTOC -->
+</details></p>
 
 <a id="requirements"></a>
 ## Requirements
 - Any of the following runtimes
-    - .NET Framework 4.5.2 or later
-    - .NET Core 3.0 or later, including .NET 5 or later
-    - Any other runtime that supports [.NET Standard 2.1](https://docs.microsoft.com/en-us/dotnet/standard/net-standard)
+    - .NET Core 2.0 or later, including .NET 5 or later
+    - .NET Framework 4.6.2 or later
+    - Any other runtime that supports [.NET Standard 2.0](https://docs.microsoft.com/en-us/dotnet/standard/net-standard) or later
 
 <a id="installation"></a>
 ## Installation
@@ -162,15 +169,19 @@ Console.WriteLine($"The absolute value of {b.Value} is {absoluteValueB.Value}.")
 <a id="connectableproperty"></a>
 ### `ConnectableProperty`
 - Like a [`PassthroughProperty`](#passthroughProperty), except the dependent `ConnectableProperty` has its dependency `Property` passed to it instead of depending upon it at creation time
+- You can also pass a constant value instead of a `Property`, which is more convenient that constructing a whole new `StoredProperty` instance to hold that constant
 - Useful for inversion of control where the dependent must not be aware of how to obtain its dependencies
 - Can be reconnected and disconnected multiple times, to allow reconfiguration
 
 ```cs
 var connectable = new ConnectableProperty<int>(0);
 var a = new StoredProperty<int>(8);
+var b = 9;
 Console.WriteLine(connectable.Value); // 0
 connectable.Connect(a);
 Console.WriteLine(connectable.Value); // 8
+connectable.Connect(b);
+Console.WriteLine(connectable.Value); // 9
 ```
 
 <a id="manuallyrecalculatedproperty"></a>
@@ -179,6 +190,7 @@ Console.WriteLine(connectable.Value); // 8
 - Useful when the dependencies do not have a way to expose change events
 - Useful when the dependencies are constantly changing and you don't care about every change
 - Useful when the recalculation is very expensive and you want to reduce how often it is run
+- Alternatively, if you want to reuse the same calculator, expose a parameterless constructor, or parameterize multiple instances, you can subclass `ManuallyRecalculatedProperty<T>`, call the parameterless super-constructor, and override the `ComputeValue()` method with your calculator logic, rather than passing a calculator function to the super-constructor.
 
 ```cs
 var manuallyRecalculated = new ManuallyRecalculatedProperty<long>(() => DateTimeOffset.Now.ToUnixTimeMilliseconds());

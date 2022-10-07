@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using FluentAssertions;
 using KoKo.Property;
 using Xunit;
@@ -30,7 +31,7 @@ namespace Test {
 
         [Fact]
         public void EventFiredWhenRecalculating() {
-            var property = new ManuallyRecalculatedProperty<int>(Calculator);
+            var property    = new ManuallyRecalculatedProperty<int>(Calculator);
             int eventsFired = 0;
             property.PropertyChanged += (sender, args) => eventsFired++;
             property.Recalculate();
@@ -39,12 +40,51 @@ namespace Test {
 
         [Fact]
         public void EventNotFiredWhenRecalculatingSameValue() {
-            var property = new ManuallyRecalculatedProperty<int>(() => 8);
+            var property    = new ManuallyRecalculatedProperty<int>(() => 8);
             int eventsFired = 0;
             property.PropertyChanged += (sender, args) => eventsFired++;
             property.Recalculate();
             eventsFired.Should().Be(0, "value did not change, so no events should be fired");
         }
+
+        [Fact]
+        public void Subclassed() {
+            MyManuallyRecalculatedProperty property = new();
+
+            int eventsFired = 0;
+            property.PropertyChanged += (_, _) => eventsFired++;
+            property.Calculations.Should().Be(1, "only calculated once, when constructing property");
+
+            property.Value.Should().Be(1);
+            property.MyValue = 2;
+            property.Recalculate();
+            property.Value.Should().Be(2);
+            eventsFired.Should().Be(1);
+            property.Recalculate();
+            property.Value.Should().Be(2);
+            eventsFired.Should().Be(1, "value did not change, so no events should be fired");
+        }
+
+        [Fact]
+        public void SubclassedWithoutOverridingCalculateThrowsException() {
+            Action thrower = () => new NonOverridingManuallyRecalculatedProperty();
+            thrower.Should().Throw<NotImplementedException>();
+        }
+
+        private class MyManuallyRecalculatedProperty: ManuallyRecalculatedProperty<int> {
+
+            public int Calculations;
+
+            public int MyValue { get; set; } = 1;
+
+            protected override int ComputeValue() {
+                Interlocked.Increment(ref Calculations);
+                return MyValue;
+            }
+
+        }
+
+        private class NonOverridingManuallyRecalculatedProperty: ManuallyRecalculatedProperty<int> { }
 
     }
 
