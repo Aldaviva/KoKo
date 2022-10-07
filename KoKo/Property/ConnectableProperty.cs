@@ -55,6 +55,14 @@
         }
 
         /// <summary>
+        /// Set this property's value to the specified constant value, replacing any previously-connected property. This will fire a change event if the value actually changes.
+        /// </summary>
+        /// <param name="constant">A value that you want to assign to this property.</param>
+        public void Connect(T constant) {
+            Connect(new StoredProperty<T>(constant));
+        }
+
+        /// <summary>
         /// Stop using any existing source for this property's value and change events. Idempotent. After calling <c>Disconnect()</c>,
         /// this property's value will come from the disconnected value specified in the constructor. Connecting and disconnected a
         /// source will fire change events, as long as the value actually changes.

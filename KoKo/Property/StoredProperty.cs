@@ -6,7 +6,7 @@
     /// </summary>
     /// <typeparam name="T">The type of the stored property value.</typeparam>
     /// See also <seealso cref="DerivedProperty{T}"/>.
-    public class StoredProperty<T>: SettableProperty<T> {
+    public class StoredProperty<T>: AbstractSettableProperty<T> {
 
         private readonly object storedValueLock = new();
 

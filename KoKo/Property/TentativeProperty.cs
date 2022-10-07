@@ -12,7 +12,7 @@ namespace KoKo.Property {
     /// </summary>
     /// <typeparam name="T">The type of this property's value, which is the same type as the parent property's value, as well as any
     /// overriding values you may set.</typeparam>
-    public class TentativeProperty<T>: SettableProperty<T>, IDisposable {
+    public class TentativeProperty<T>: AbstractSettableProperty<T>, IDisposable {
 
         private readonly Property<T>              parentProperty;
         private readonly TimeSpan                 tentativeDuration;
