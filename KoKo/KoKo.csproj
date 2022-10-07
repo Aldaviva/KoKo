@@ -4,7 +4,7 @@
         <TargetFrameworks>netstandard2.1;netstandard2.0;net462</TargetFrameworks>
         <Description>Declarative automatic state management in .NET with no boilerplate. Never deal with INotifyPropertyChanged again.</Description>
         <Copyright>© 2022 Ben Hutchison</Copyright>
-        <Version>2.2.0</Version>
+        <Version>2.2.1</Version>
         <Title>KoKo</Title>
         <Authors>Ben Hutchison</Authors>
         <Company>Ben Hutchison</Company>
@@ -34,7 +34,7 @@
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
     </ItemGroup>
 
-    <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+    <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true' or '$(Configuration)' == 'Release'">
         <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
     </PropertyGroup>
 
