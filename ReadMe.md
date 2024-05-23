@@ -1,17 +1,17 @@
-<img src="https://raw.githubusercontent.com/Aldaviva/KoKo/master/KoKo/icon.png" height="23" alt="KoKo logo" /> KoKo
+<img src="https://raw.githubusercontent.com/Aldaviva/KoKo/master/KoKo/icon.png" height="24" alt="KoKo logo" /> KoKo
 ===
 
-[![Nuget](https://img.shields.io/nuget/v/KoKo?logo=nuget)](https://www.nuget.org/packages/KoKo/) [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Aldaviva/KoKo/.NET?logo=github)](https://github.com/Aldaviva/KoKo/actions/workflows/dotnetpackage.yml) [![Coveralls](https://img.shields.io/coveralls/github/Aldaviva/KoKo?logo=coveralls)](https://coveralls.io/github/Aldaviva/KoKo?branch=master)
+[![Nuget](https://img.shields.io/nuget/v/KoKo?logo=nuget)](https://www.nuget.org/packages/KoKo/) ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/Aldaviva/KoKo/dotnetpackage.yml?branch=master&logo=github) [![Coveralls](https://img.shields.io/coveralls/github/Aldaviva/KoKo?logo=coveralls)](https://coveralls.io/github/Aldaviva/KoKo?branch=master)
 
 *Knockout for Cocoa, for C#*
 
 KoKo lets you create `Property` objects as members of your model classes.
 
-Unlike [native C# properties](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/properties), KoKo `Property` objects automatically fire change events. They can be composed from multiple other Properties without the dependencies being aware of the dependents, and without writing any boilerplate event handling code. They are compatible with native C# properties and events, as well as with WPF and Windows Forms databinding.
+Unlike [native C# properties](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/properties), KoKo `Property` objects automatically fire change [events](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/events/). They can be composed from multiple other Properties without the dependencies being aware of the dependents, and without writing any boilerplate event handling code. They are compatible with native C# properties and events, as well as with WPF and Windows Forms databinding.
 
-These properties are very similar to what you would find in [Knockout](https://knockoutjs.com/), [MobX](https://mobx.js.org/), and WPF's [`DependencyProperty`](https://docs.microsoft.com/en-us/dotnet/api/system.windows.dependencyproperty). They do not rely on a presentation layer like WPF, and they do not require you to import and understand a large, overblown, confusing library like [.NET Reactive Extensions/Rx.NET](https://dotnetfoundation.org/projects/reactive-extensions).
+These properties are very similar to what you would find in [Knockout](https://knockoutjs.com/), [MobX](https://mobx.js.org/), and WPF's [`DependencyProperty`](https://learn.microsoft.com/en-us/dotnet/api/system.windows.dependencyproperty). They do not rely on a presentation layer like WPF, and they do not require you to import and understand a large, overblown, confusing library like [.NET Reactive Extensions/Rx.NET](https://dotnetfoundation.org/projects/reactive-extensions).
 
-This library was ported from a Swift library by [@abrindam](https://github.com/abrindam) called KoKo ("Knockout for Cocoa"), which was later open-sourced under the name [Yoyo](https://github.com/bluejeans/Yoyo).
+This library was ported from an open-source Swift library by [@abrindam](https://github.com/abrindam) called KoKo (which means "Knockout for Cocoa"), which was later renamed to [Yoyo](https://github.com/plluke/Yoyo) because "KoKo" and "Cocoa" are homophones and thus verbally indistinguishable.
 
 <p><details>
     <summary><strong>Table of Contents</strong></summary>
@@ -43,7 +43,7 @@ This library was ported from a Swift library by [@abrindam](https://github.com/a
 - Any of the following runtimes
     - .NET Core 2.0 or later, including .NET 5 or later
     - .NET Framework 4.6.2 or later
-    - Any other runtime that supports [.NET Standard 2.0](https://docs.microsoft.com/en-us/dotnet/standard/net-standard) or later
+    - Any other runtime that supports [.NET Standard 2.0](https://learn.microsoft.com/en-us/dotnet/standard/net-standard) or later
 
 <a id="installation"></a>
 ## Installation
@@ -140,8 +140,8 @@ Remember to use the `Value` property in your databinding declarations, otherwise
 
 - Stores a single value in memory
 - Value can be get or set imperatively
-- Similar to a native C# property, except you don't have to [implement `INotifyPropertyChanged` yourself](https://docs.microsoft.com/en-us/dotnet/framework/winforms/how-to-implement-the-inotifypropertychanged-interface)
-- You can perform [atomic operations](https://docs.microsoft.com/en-us/dotnet/api/system.threading.interlocked#methods) on a `StoredProperty` value using `Increment()`, `Decrement()`, `Add(value)`, `Exchange(value)`, or `CompareExchange(possibleNewValue, assignIfOldValueEquals)`
+- Similar to a native C# property, except you don't have to [implement `INotifyPropertyChanged` yourself](https://learn.microsoft.com/en-us/dotnet/framework/winforms/how-to-implement-the-inotifypropertychanged-interface)
+- You can perform [atomic operations](https://learn.microsoft.com/en-us/dotnet/api/system.threading.interlocked#methods) on a `StoredProperty` value using `Increment()`, `Decrement()`, `Add(value)`, `Exchange(value)`, or `CompareExchange(possibleNewValue, assignIfOldValueEquals)`
 
 ```cs
 var a = new StoredProperty<string>("world");
@@ -215,7 +215,7 @@ Console.WriteLine($"Welcome, {currentUserFullName.Value}"); // Welcome, FirstNam
 
 <a id="nativereadableproperty"></a>
 ### `NativeReadableProperty`
-- Useful for interoperation with C# classes, whether they expose property value changes using [`INotifyPropertyChanged`](https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.inotifypropertychanged) or other events
+- Useful for interoperation with C# classes, whether they expose property value changes using [`INotifyPropertyChanged`](https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.inotifypropertychanged) or other events
 
 ```cs
 // MyNativePropertyClass implements INotifyPropertyChanged and fires PropertyChanged events
@@ -341,9 +341,9 @@ property.Value = 2; // Property value changed to 2.
 
 You may want the property changed event handlers to run on a different thread than the one that caused the property value to change in the first place. This is especially important for updating UI controls, since Windows Forms and WPF only allow UI updates on the main thread, whether the update is imperative or declarative (data binding).
 
-To accomplish this, set `EventSynchronizationContext` on your KoKo `Property` to [`SynchronizationContext.Current`](https://docs.microsoft.com/en-us/dotnet/api/system.threading.synchronizationcontext.current).
+To accomplish this, set `EventSynchronizationContext` on your KoKo `Property` to [`SynchronizationContext.Current`](https://learn.microsoft.com/en-us/dotnet/api/system.threading.synchronizationcontext.current).
 
-Now, whenever the Property value changes, even if the change happened on a background thread, the event handlers will run in that [`SynchronizationContext`](https://docs.microsoft.com/en-us/dotnet/api/system.threading.synchronizationcontext), so if you have a WPF control bound to that Property value, it will run in the correct WPF [`Dispatcher`](https://docs.microsoft.com/en-us/dotnet/api/system.windows.threading.dispatcher).
+Now, whenever the Property value changes, even if the change happened on a background thread, the event handlers will run in that [`SynchronizationContext`](https://learn.microsoft.com/en-us/dotnet/api/system.threading.synchronizationcontext), so if you have a WPF control bound to that Property value, it will run in the correct WPF [`Dispatcher`](https://learn.microsoft.com/en-us/dotnet/api/system.windows.threading.dispatcher).
 
 - All KoKo event handlers run synchronously, whether on the original thread or through a `SynchronizationContext`
 - All KoKo Properties can have their `EventSynchronizationContext` changed, not just `PassthroughProperty`
