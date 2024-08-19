@@ -1,9 +1,7 @@
-﻿namespace KoKo.Property {
+﻿namespace KoKo.Property;
 
-    public interface SettableProperty<T>: Property<T> {
+public interface SettableProperty<T>: Property<T> {
 
-        new T Value { get; set; }
-
-    }
+    new T Value { get; set; }
 
 }

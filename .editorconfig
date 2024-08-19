@@ -1,2 +1,2 @@
-[*]
-guidelines = 135
+[*.cs]
+resharper_virtual_member_call_in_constructor_highlighting=none

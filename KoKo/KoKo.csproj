@@ -1,10 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFrameworks>netstandard2.1;netstandard2.0;net462</TargetFrameworks>
         <Description>Declarative automatic state management in .NET with no boilerplate. Never deal with INotifyPropertyChanged again.</Description>
-        <Copyright>© 2022 Ben Hutchison</Copyright>
-        <Version>2.2.1</Version>
+        <Copyright>© 2024 Ben Hutchison</Copyright>
+        <Version>2.3.0-beta1</Version>
         <Title>KoKo</Title>
         <Authors>Ben Hutchison</Authors>
         <Company>Ben Hutchison</Company>
@@ -21,7 +21,6 @@
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <NoWarn>1701,1702,1591</NoWarn>
     </PropertyGroup>
@@ -31,7 +30,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
     </ItemGroup>
 
     <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true' or '$(Configuration)' == 'Release'">
