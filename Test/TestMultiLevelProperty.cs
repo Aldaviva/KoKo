@@ -1,6 +1,4 @@
-﻿using FluentAssertions;
 using KoKo.Property;
-using Xunit;
 
 namespace Test;
 
@@ -37,7 +35,7 @@ public class TestMultiLevelProperty {
 
     [Fact]
     public void NewValueWhenChangingOuterProperty() {
-        Participant participant2 = new Participant();
+        Participant participant2 = new();
         participant2.Name.Value         = "C";
         roster.CurrentParticipant.Value = participant2;
         currentParticipantName.Value.Should().Be("C");
@@ -46,7 +44,7 @@ public class TestMultiLevelProperty {
 
     [Fact]
     public void NoUpdateWhenChangingUnusedProperty() {
-        Participant participant2 = new Participant();
+        Participant participant2 = new();
         participant2.Name.Value         = "C";
         roster.CurrentParticipant.Value = participant2;
         changeEventsFired.Should().Be(1);

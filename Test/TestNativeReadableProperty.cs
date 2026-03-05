@@ -1,10 +1,6 @@
-﻿using FluentAssertions;
 using KoKo.Property;
-using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows.Forms;
-using Xunit;
 
 // ReSharper disable ObjectCreationAsStatement
 
@@ -210,8 +206,8 @@ internal class MyNonNotifyingNativePropertyClass {
 
 internal class ToolStrip2: ToolStrip {
 
-    public ToolStrip2() { }
-    public ToolStrip2(params ToolStripItem[] items): base(items) { }
+    public ToolStrip2() {}
+    public ToolStrip2(params ToolStripItem[] items): base(items) {}
 
     public new static void SetItemParent(ToolStripItem item, ToolStrip parent) => ToolStrip.SetItemParent(item, parent);
 

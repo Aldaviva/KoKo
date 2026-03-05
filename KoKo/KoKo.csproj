@@ -2,38 +2,42 @@
 
     <PropertyGroup>
         <TargetFrameworks>netstandard2.1;netstandard2.0;net462</TargetFrameworks>
-        <Description>Declarative automatic state management in .NET with no boilerplate. Never deal with INotifyPropertyChanged again.</Description>
-        <Copyright>© 2024 Ben Hutchison</Copyright>
-        <Version>2.3.0-beta1</Version>
         <Title>KoKo</Title>
+        <Version>2.3.0</Version>
         <Authors>Ben Hutchison</Authors>
-        <Company>Ben Hutchison</Company>
-        <RepositoryUrl>https://github.com/Aldaviva/KoKo.git</RepositoryUrl>
-        <PublishRepositoryUrl>true</PublishRepositoryUrl>
-        <RepositoryType>git</RepositoryType>
-        <PackageTags>knockout model property reactive state-management observable reactive-programming inotifypropertychanged</PackageTags>
-        <PackageIcon>icon.png</PackageIcon>
-        <PackageProjectUrl>https://github.com/Aldaviva/KoKo</PackageProjectUrl>
+        <Copyright>© 2026 $(Authors)</Copyright>
+        <Company>$(Authors)</Company>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
-        <IncludeSource>true</IncludeSource>
-        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <NoWarn>$(NoWarn);1701,1702,1591</NoWarn>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/Aldaviva/KoKo.git</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/Aldaviva/KoKo</PackageProjectUrl>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+        <Description>Declarative automatic state management in .NET with no boilerplate. Never deal with INotifyPropertyChanged again.</Description>
+        <PackageTags>knockout model property reactive state-management observable reactive-programming inotifypropertychanged mobx</PackageTags>
+        <PackageIcon>icon.png</PackageIcon>
+        <IncludeSource>true</IncludeSource>
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <PackageReadmeFile>Readme.md</PackageReadmeFile>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <NoWarn>1701,1702,1591</NoWarn>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="icon.png" Pack="true" PackagePath="\" />
+        <None Include="icon.png;..\ReadMe.md" Pack="true" PackagePath="\" />
+        <None Include="..\.github*\**" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.103" PrivateAssets="All" />
     </ItemGroup>
 
-    <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true' or '$(Configuration)' == 'Release'">
+    <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true' or '$(Configuration)' != 'Debug'">
         <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
     </PropertyGroup>
 

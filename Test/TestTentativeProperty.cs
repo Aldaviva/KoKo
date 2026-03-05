@@ -1,9 +1,4 @@
-﻿using FluentAssertions;
 using KoKo.Property;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Xunit;
 
 namespace Test;
 
@@ -74,7 +69,7 @@ public class TestTentativeProperty {
         tentativeProperty.Value = 2;
         tentativeProperty.Value.Should().Be(2, "directly after setting temporary value");
 
-        return Task.Delay(longDuration).ContinueWith(task => tentativeProperty.Value.Should().Be(1, "after waiting temporary value to revert to parent value"));
+        return Task.Delay(longDuration, TestContext.Current.CancellationToken).ContinueWith(task => tentativeProperty.Value.Should().Be(1, "after waiting temporary value to revert to parent value"));
     }
 
     [Fact]

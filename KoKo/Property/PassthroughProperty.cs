@@ -1,4 +1,4 @@
-﻿using KoKo.Events;
+using KoKo.Events;
 
 namespace KoKo.Property;
 

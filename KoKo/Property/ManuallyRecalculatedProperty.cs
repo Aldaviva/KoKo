@@ -1,5 +1,3 @@
-﻿using System;
-
 namespace KoKo.Property;
 
 public interface ManuallyRecalculatedProperty {

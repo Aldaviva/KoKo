@@ -1,4 +1,4 @@
-﻿namespace KoKo.Property;
+namespace KoKo.Property;
 
 /// <summary>
 /// A type of property whose value comes from another dependency <c>Property</c>, which is connected after this object's creation.

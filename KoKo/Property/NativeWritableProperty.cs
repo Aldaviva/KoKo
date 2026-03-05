@@ -1,4 +1,3 @@
-﻿using System;
 using System.ComponentModel;
 using System.Reflection;
 
@@ -79,9 +78,9 @@ public class NativeWritableProperty<T>: AbstractSettableProperty<T> {
     /// <exception cref="PlatformNotSupportedException">On .NET Standard 2.0; try the other constructor that takes an <see cref="INotifyPropertyChanged"/> argument, or use at least .NET Framework 4.5.2, .NET Standard 2.1, or .NET (Core) 3.1.</exception>
     public NativeWritableProperty(object nativeObject, string nativePropertyName, string? nativeEventName = null): this(nativeObject, nativePropertyName) {
 #if !NETSTANDARD2_0
-            nativeEventName ??= nativePropertyName + "Changed";
-            NativeEventListener nativeEventListener = new(nativeObject, nativeEventName);
-            nativeEventListener.OnEvent += delegate { NativePropertyChanged(); };
+        nativeEventName ??= nativePropertyName + "Changed";
+        NativeEventListener nativeEventListener = new(nativeObject, nativeEventName);
+        nativeEventListener.OnEvent += delegate { NativePropertyChanged(); };
 #else
         throw new PlatformNotSupportedException(
             "Constructor NativeWritableProperty(object nativeObject, string nativePropertyName, string? nativeEventName = null) is not supported on .NET Standard 2.0 because ModuleBuilder is unavailable. If your native property implements INotifyPropertyChanged, you can use the alternate constructor NativeWritableProperty(INotifyPropertyChanged nativeObject, string nativePropertyName). Alternately you can target .NET Framework 4.5.2 or later, or .NET Standard 2.1, or .NET (Core) 3.0 or later.");

@@ -1,9 +1,6 @@
-﻿using System;
+using KoKo.Property;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Threading;
-using KoKo.Events;
-using KoKo.Property;
 
 // ReSharper disable All
 
@@ -94,10 +91,10 @@ namespace Test {
 
         private void changeHandler() {
             var property = new StoredProperty<int>();
-            property.PropertyChanged += (object sender, KoKoPropertyChangedEventArgs<int> args) => { Console.WriteLine($"Property value changed from {args.OldValue} to {args.NewValue}."); };
+            property.PropertyChanged += (sender, args) => { Console.WriteLine($"Property value changed from {args.OldValue} to {args.NewValue}."); };
 
             INotifyPropertyChanged property2 = property;
-            property2.PropertyChanged += (object sender, PropertyChangedEventArgs args) => { Console.WriteLine($"Property value changed to {property.Value}."); };
+            property2.PropertyChanged += (sender, args) => { Console.WriteLine($"Property value changed to {property.Value}."); };
         }
 
     }

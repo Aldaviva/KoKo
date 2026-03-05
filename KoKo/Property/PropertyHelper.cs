@@ -1,10 +1,9 @@
-﻿using KoKo.Events;
+using KoKo.Events;
 using System.ComponentModel;
-using System.Threading;
 
 namespace KoKo.Property;
 
-internal class PropertyHelper<T>: KoKoNotifyPropertyChanged<T> {
+internal sealed class PropertyHelper<T>: KoKoNotifyPropertyChanged<T> {
 
     private readonly object propertyChanged2Lock = new();
 

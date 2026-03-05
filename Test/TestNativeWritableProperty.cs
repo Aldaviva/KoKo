@@ -1,9 +1,6 @@
-﻿using FluentAssertions;
 using KoKo.Property;
-using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Xunit;
 
 namespace Test;
 
@@ -12,7 +9,7 @@ public class TestNativeWritableProperty {
     [Fact]
     public void InitialValue() {
         int                           nativeEvents     = 0, kokoEvents = 0;
-        MyWritableNativePropertyClass myNativeProperty = new MyWritableNativePropertyClass();
+        MyWritableNativePropertyClass myNativeProperty = new();
         myNativeProperty.PropertyChanged += delegate { nativeEvents++; };
 
         myNativeProperty.Greeting = "hello";
@@ -27,7 +24,7 @@ public class TestNativeWritableProperty {
     [Fact]
     public void NativeChange() {
         int                           nativeEvents     = 0, kokoEvents = 0;
-        MyWritableNativePropertyClass myNativeProperty = new MyWritableNativePropertyClass();
+        MyWritableNativePropertyClass myNativeProperty = new();
         myNativeProperty.PropertyChanged += delegate { nativeEvents++; };
         myNativeProperty.Greeting        =  "hello";
 
@@ -45,7 +42,7 @@ public class TestNativeWritableProperty {
     [Fact]
     public void WrongPropertyNativeChange() {
         int                           nativeEvents     = 0, kokoEvents = 0;
-        MyWritableNativePropertyClass myNativeProperty = new MyWritableNativePropertyClass();
+        MyWritableNativePropertyClass myNativeProperty = new();
         myNativeProperty.PropertyChanged += delegate { nativeEvents++; };
         myNativeProperty.PartingPhrase   =  "goodbye";
 
@@ -63,7 +60,7 @@ public class TestNativeWritableProperty {
     [Fact]
     public void KokoChange() {
         int                           nativeEvents     = 0, kokoEvents = 0;
-        MyWritableNativePropertyClass myNativeProperty = new MyWritableNativePropertyClass();
+        MyWritableNativePropertyClass myNativeProperty = new();
         myNativeProperty.PropertyChanged += delegate { nativeEvents++; };
         myNativeProperty.Greeting        =  "hello";
 
@@ -81,7 +78,7 @@ public class TestNativeWritableProperty {
 
     [Fact]
     public void GetNotVisible() {
-        MyWritableNativePropertyClass myNativeProperty = new MyWritableNativePropertyClass();
+        MyWritableNativePropertyClass myNativeProperty = new();
 
         // ReSharper disable once ObjectCreationAsStatement we want to see the constructor throw an exception
         Action thrower = () => new NativeWritableProperty<string>(myNativeProperty, nameof(myNativeProperty.SetOnly));
@@ -90,7 +87,7 @@ public class TestNativeWritableProperty {
 
     [Fact]
     public void SetNotVisible() {
-        MyWritableNativePropertyClass myNativeProperty = new MyWritableNativePropertyClass();
+        MyWritableNativePropertyClass myNativeProperty = new();
 
         // ReSharper disable once ObjectCreationAsStatement we want to see the constructor throw an exception
         Action thrower = () => new NativeWritableProperty<string>(myNativeProperty, nameof(myNativeProperty.GetOnly));
@@ -99,7 +96,7 @@ public class TestNativeWritableProperty {
 
     [Fact]
     public void WrongType() {
-        MyWritableNativePropertyClass myNativeProperty = new MyWritableNativePropertyClass { Greeting = "hi" };
+        MyWritableNativePropertyClass myNativeProperty = new() { Greeting = "hi" };
 
         // ReSharper disable once ObjectCreationAsStatement we want to see the constructor throw an exception
         Action thrower = () => new NativeWritableProperty<int>(myNativeProperty, nameof(myNativeProperty.Greeting));
@@ -109,7 +106,7 @@ public class TestNativeWritableProperty {
     [Fact]
     public void NonNotifyingPropertyInitialValue() {
         int                                       nativeEvents     = 0, kokoEvents = 0;
-        MyWritableNonNotifyingNativePropertyClass myNativeProperty = new MyWritableNonNotifyingNativePropertyClass();
+        MyWritableNonNotifyingNativePropertyClass myNativeProperty = new();
         myNativeProperty.GreetingChanged += delegate { nativeEvents++; };
 
         myNativeProperty.Greeting = "hello";
@@ -125,7 +122,7 @@ public class TestNativeWritableProperty {
     public void NonNotifyingPropertyValueChanged() {
         int nativeEvents = 0, kokoEvents = 0;
 
-        MyWritableNonNotifyingNativePropertyClass myNativeProperty = new MyWritableNonNotifyingNativePropertyClass();
+        MyWritableNonNotifyingNativePropertyClass myNativeProperty = new();
         myNativeProperty.Greeting        =  "hello";
         myNativeProperty.GreetingChanged += delegate { nativeEvents++; };
 
@@ -142,7 +139,7 @@ public class TestNativeWritableProperty {
     public void NonNotifyingPropertyImplicitEventName() {
         int nativeEvents = 0, kokoEvents = 0;
 
-        MyWritableNonNotifyingNativePropertyClass myNativeProperty = new MyWritableNonNotifyingNativePropertyClass();
+        MyWritableNonNotifyingNativePropertyClass myNativeProperty = new();
         myNativeProperty.Greeting        =  "hello";
         myNativeProperty.GreetingChanged += delegate { nativeEvents++; };
 
@@ -159,7 +156,7 @@ public class TestNativeWritableProperty {
     public void NonNotifyingPropertyValueSettable() {
         int nativeEvents = 0, kokoEvents = 0;
 
-        MyWritableNonNotifyingNativePropertyClass myNativeProperty = new MyWritableNonNotifyingNativePropertyClass();
+        MyWritableNonNotifyingNativePropertyClass myNativeProperty = new();
         myNativeProperty.Greeting        =  "hello";
         myNativeProperty.GreetingChanged += delegate { nativeEvents++; };
 

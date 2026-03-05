@@ -1,5 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -54,7 +52,7 @@ public class MultiLevelProperty<T>: UnsettableProperty<T> {
 
 }
 
-internal class PropertyInstrumentingVisitor: ExpressionVisitor {
+internal sealed class PropertyInstrumentingVisitor: ExpressionVisitor {
 
     private static readonly TypeInfo   PropertyTypeInfo                 = typeof(Property).GetTypeInfo();
     private static readonly MethodInfo InstrumentPropertyAccessorMethod = typeof(PropertyInstrumentingVisitor).GetRuntimeMethod(nameof(InstrumentPropertyAccessor), new[] { typeof(Property) });

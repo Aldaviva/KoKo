@@ -1,6 +1,4 @@
-﻿using FluentAssertions;
 using KoKo.Property;
-using Xunit;
 
 namespace Test;
 

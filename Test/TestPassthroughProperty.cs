@@ -1,8 +1,5 @@
-﻿using FluentAssertions;
 using KoKo.Events;
 using KoKo.Property;
-using System.Threading;
-using Xunit;
 
 namespace Test;
 
@@ -58,7 +55,7 @@ public class TestPassthroughProperty {
         var passthrough = new PassthroughProperty<int>(stored);
 
         int           eventsTriggeredCount   = 0;
-        MySyncContext synchronizationContext = new MySyncContext();
+        MySyncContext synchronizationContext = new();
         passthrough.EventSynchronizationContext =  synchronizationContext;
         passthrough.PropertyChanged             += (sender, args) => { eventsTriggeredCount++; };
 

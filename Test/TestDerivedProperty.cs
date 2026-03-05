@@ -1,8 +1,5 @@
-﻿using FluentAssertions;
 using KoKo.Property;
-using System;
 using System.ComponentModel;
-using Xunit;
 
 namespace Test;
 
@@ -99,16 +96,16 @@ public class TestDerivedProperty {
         var f = new Property<int>[17];
         f[0]  = zero;
         f[1]  = one;
-        f[2]  = DerivedProperty<int>.Create(f[0], f[1], (i0,                                                               i1) => i0 + i1);
-        f[3]  = DerivedProperty<int>.Create(f[0], f[1], f[2], (i0,                                                         i1, i2) => i1 + i2);
-        f[4]  = DerivedProperty<int>.Create(f[0], f[1], f[2], f[3], (i0,                                                   i1, i2, i3) => i2 + i3);
-        f[5]  = DerivedProperty<int>.Create(f[0], f[1], f[2], f[3], f[4], (i0,                                             i1, i2, i3, i4) => i3 + i4);
-        f[6]  = DerivedProperty<int>.Create(f[0], f[1], f[2], f[3], f[4], f[5], (i0,                                       i1, i2, i3, i4, i5) => i4 + i5);
-        f[7]  = DerivedProperty<int>.Create(f[0], f[1], f[2], f[3], f[4], f[5], f[6], (i0,                                 i1, i2, i3, i4, i5, i6) => i5 + i6);
-        f[8]  = DerivedProperty<int>.Create(f[0], f[1], f[2], f[3], f[4], f[5], f[6], f[7], (i0,                           i1, i2, i3, i4, i5, i6, i7) => i6 + i7);
-        f[9]  = DerivedProperty<int>.Create(f[0], f[1], f[2], f[3], f[4], f[5], f[6], f[7], f[8], (i0,                     i1, i2, i3, i4, i5, i6, i7, i8) => i7 + i8);
-        f[10] = DerivedProperty<int>.Create(f[0], f[1], f[2], f[3], f[4], f[5], f[6], f[7], f[8], f[9], (i0,               i1, i2, i3, i4, i5, i6, i7, i8, i9) => i8 + i9);
-        f[11] = DerivedProperty<int>.Create(f[0], f[1], f[2], f[3], f[4], f[5], f[6], f[7], f[8], f[9], f[10], (i0,        i1, i2, i3, i4, i5, i6, i7, i8, i9, i10) => i9 + i10);
+        f[2]  = DerivedProperty<int>.Create(f[0], f[1], (i0, i1) => i0 + i1);
+        f[3]  = DerivedProperty<int>.Create(f[0], f[1], f[2], (i0, i1, i2) => i1 + i2);
+        f[4]  = DerivedProperty<int>.Create(f[0], f[1], f[2], f[3], (i0, i1, i2, i3) => i2 + i3);
+        f[5]  = DerivedProperty<int>.Create(f[0], f[1], f[2], f[3], f[4], (i0, i1, i2, i3, i4) => i3 + i4);
+        f[6]  = DerivedProperty<int>.Create(f[0], f[1], f[2], f[3], f[4], f[5], (i0, i1, i2, i3, i4, i5) => i4 + i5);
+        f[7]  = DerivedProperty<int>.Create(f[0], f[1], f[2], f[3], f[4], f[5], f[6], (i0, i1, i2, i3, i4, i5, i6) => i5 + i6);
+        f[8]  = DerivedProperty<int>.Create(f[0], f[1], f[2], f[3], f[4], f[5], f[6], f[7], (i0, i1, i2, i3, i4, i5, i6, i7) => i6 + i7);
+        f[9]  = DerivedProperty<int>.Create(f[0], f[1], f[2], f[3], f[4], f[5], f[6], f[7], f[8], (i0, i1, i2, i3, i4, i5, i6, i7, i8) => i7 + i8);
+        f[10] = DerivedProperty<int>.Create(f[0], f[1], f[2], f[3], f[4], f[5], f[6], f[7], f[8], f[9], (i0, i1, i2, i3, i4, i5, i6, i7, i8, i9) => i8 + i9);
+        f[11] = DerivedProperty<int>.Create(f[0], f[1], f[2], f[3], f[4], f[5], f[6], f[7], f[8], f[9], f[10], (i0, i1, i2, i3, i4, i5, i6, i7, i8, i9, i10) => i9 + i10);
         f[12] = DerivedProperty<int>.Create(f[0], f[1], f[2], f[3], f[4], f[5], f[6], f[7], f[8], f[9], f[10], f[11], (i0, i1, i2, i3, i4, i5, i6, i7, i8, i9, i10, i11) => i10 + i11);
         f[13] = DerivedProperty<int>.Create(f[0], f[1], f[2], f[3], f[4], f[5], f[6], f[7], f[8], f[9], f[10], f[11], f[12],
             (i0, i1, i2, i3, i4, i5, i6, i7, i8, i9, i10, i11, i12) => i11 + i12);
@@ -141,7 +138,7 @@ public class TestDerivedProperty {
         int                    eventsFired = 0;
         var                    stored      = new StoredProperty<int>(1);
         DerivedProperty<int>   property    = DerivedProperty<int>.Create(stored, i => i + 100);
-        INotifyPropertyChanged eventSource = (INotifyPropertyChanged) property;
+        INotifyPropertyChanged eventSource = property;
 
         void OnValueChanged(object sender, PropertyChangedEventArgs e) {
             eventsFired++;
@@ -163,7 +160,7 @@ public class TestDerivedProperty {
         var                  stored   = new StoredProperty<int>(1);
         DerivedProperty<int> property = DerivedProperty<int>.Create(stored, i => i + 100);
 
-        Property rawProperty = (Property) property;
+        Property rawProperty = property;
         rawProperty.Value.Should().Be(101);
     }
 

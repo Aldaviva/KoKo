@@ -1,8 +1,4 @@
-﻿using FluentAssertions;
 using KoKo.Property;
-using System;
-using System.Threading;
-using Xunit;
 
 namespace Test;
 
@@ -84,6 +80,6 @@ public class TestManuallyRecalculatedProperty {
 
     }
 
-    private class NonOverridingManuallyRecalculatedProperty: ManuallyRecalculatedProperty<int> { }
+    private class NonOverridingManuallyRecalculatedProperty: ManuallyRecalculatedProperty<int> {}
 
 }

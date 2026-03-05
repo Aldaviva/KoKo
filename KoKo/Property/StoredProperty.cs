@@ -1,4 +1,4 @@
-﻿namespace KoKo.Property;
+namespace KoKo.Property;
 
 /// <summary>
 /// A property object that stores a single <see cref="Value"/> in memory. The value is set directly on the instance; it is

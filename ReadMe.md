@@ -1,7 +1,8 @@
 <img src="https://raw.githubusercontent.com/Aldaviva/KoKo/master/KoKo/icon.png" height="24" alt="KoKo logo" /> KoKo
 ===
 
-[![Nuget](https://img.shields.io/nuget/v/KoKo?logo=nuget)](https://www.nuget.org/packages/KoKo/) ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/Aldaviva/KoKo/dotnetpackage.yml?branch=master&logo=github) [![Coveralls](https://img.shields.io/coveralls/github/Aldaviva/KoKo?logo=coveralls)](https://coveralls.io/github/Aldaviva/KoKo?branch=master)
+[![Package Version](https://img.shields.io/nuget/v/KoKo?logo=nuget)](https://www.nuget.org/packages/KoKo/) [![NuGet Gallery Download Count](https://img.shields.io/nuget/dt/KoKo?logo=nuget&color=blue
+)](https://www.nuget.org/packages/KoKo/) ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/Aldaviva/KoKo/dotnetpackage.yml?branch=master&logo=github) [![Testspace](https://img.shields.io/testspace/tests/Aldaviva/Aldaviva:KoKo/master?passed_label=passing&failed_label=failing&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4NTkgODYxIj48cGF0aCBkPSJtNTk4IDUxMy05NCA5NCAyOCAyNyA5NC05NC0yOC0yN3pNMzA2IDIyNmwtOTQgOTQgMjggMjggOTQtOTQtMjgtMjh6bS00NiAyODctMjcgMjcgOTQgOTQgMjctMjctOTQtOTR6bTI5My0yODctMjcgMjggOTQgOTQgMjctMjgtOTQtOTR6TTQzMiA4NjFjNDEuMzMgMCA3Ni44My0xNC42NyAxMDYuNS00NFM1ODMgNzUyIDU4MyA3MTBjMC00MS4zMy0xNC44My03Ni44My00NC41LTEwNi41UzQ3My4zMyA1NTkgNDMyIDU1OWMtNDIgMC03Ny42NyAxNC44My0xMDcgNDQuNXMtNDQgNjUuMTctNDQgMTA2LjVjMCA0MiAxNC42NyA3Ny42NyA0NCAxMDdzNjUgNDQgMTA3IDQ0em0wLTU1OWM0MS4zMyAwIDc2LjgzLTE0LjgzIDEwNi41LTQ0LjVTNTgzIDE5Mi4zMyA1ODMgMTUxYzAtNDItMTQuODMtNzcuNjctNDQuNS0xMDdTNDczLjMzIDAgNDMyIDBjLTQyIDAtNzcuNjcgMTQuNjctMTA3IDQ0cy00NCA2NS00NCAxMDdjMCA0MS4zMyAxNC42NyA3Ni44MyA0NCAxMDYuNVMzOTAgMzAyIDQzMiAzMDJ6bTI3NiAyODJjNDIgMCA3Ny42Ny0xNC44MyAxMDctNDQuNXM0NC02NS4xNyA0NC0xMDYuNWMwLTQyLTE0LjY3LTc3LjY3LTQ0LTEwN3MtNjUtNDQtMTA3LTQ0Yy00MS4zMyAwLTc2LjY3IDE0LjY3LTEwNiA0NHMtNDQgNjUtNDQgMTA3YzAgNDEuMzMgMTQuNjcgNzYuODMgNDQgMTA2LjVTNjY2LjY3IDU4NCA3MDggNTg0em0tNTU3IDBjNDIgMCA3Ny42Ny0xNC44MyAxMDctNDQuNXM0NC02NS4xNyA0NC0xMDYuNWMwLTQyLTE0LjY3LTc3LjY3LTQ0LTEwN3MtNjUtNDQtMTA3LTQ0Yy00MS4zMyAwLTc2LjgzIDE0LjY3LTEwNi41IDQ0UzAgMzkxIDAgNDMzYzAgNDEuMzMgMTQuODMgNzYuODMgNDQuNSAxMDYuNVMxMDkuNjcgNTg0IDE1MSA1ODR6IiBmaWxsPSIjZmZmIi8%2BPC9zdmc%2B)](https://aldaviva.testspace.com/spaces/337005) [![Coveralls](https://img.shields.io/coveralls/github/Aldaviva/KoKo?logo=coveralls)](https://coveralls.io/github/Aldaviva/KoKo?branch=master)
 
 *Knockout for Cocoa, for C#*
 
@@ -11,12 +12,9 @@ Unlike [native C# properties](https://learn.microsoft.com/en-us/dotnet/csharp/pr
 
 These properties are very similar to what you would find in [Knockout](https://knockoutjs.com/), [MobX](https://mobx.js.org/), and WPF's [`DependencyProperty`](https://learn.microsoft.com/en-us/dotnet/api/system.windows.dependencyproperty). They do not rely on a presentation layer like WPF, and they do not require you to import and understand a large, overblown, confusing library like [.NET Reactive Extensions/Rx.NET](https://dotnetfoundation.org/projects/reactive-extensions).
 
-This library was ported from an open-source Swift library by [@abrindam](https://github.com/abrindam) called KoKo (which means "Knockout for Cocoa"), which was later renamed to [Yoyo](https://github.com/plluke/Yoyo) because "KoKo" and "Cocoa" are homophones and thus verbally indistinguishable.
+This library was ported from an open-source Swift library by [@abrindam](https://github.com/abrindam) called KoKo (which means "Knockout for Cocoa"), which was later renamed to [Yoyo](https://github.com/onelittlefish/Yoyo) because "KoKo" and "Cocoa" are homophones and thus verbally indistinguishable.
 
-<p><details>
-    <summary><strong>Table of Contents</strong></summary>
-
-<!-- MarkdownTOC autolink="true" bracket="round" autoanchor="true" levels="1,2,3" -->
+<!-- MarkdownTOC autolink="true" bracket="round" autoanchor="false" levels="1,2,3" -->
 
 - [Requirements](#requirements)
 - [Installation](#installation)
@@ -36,68 +34,51 @@ This library was ported from an open-source Swift library by [@abrindam](https:/
 - [Threading](#threading)
 
 <!-- /MarkdownTOC -->
-</details></p>
 
-<a id="requirements"></a>
 ## Requirements
-- Any of the following runtimes
-    - .NET Core 2.0 or later, including .NET 5 or later
+- Any .NET runtime that supports [.NET Standard 2.0](https://learn.microsoft.com/en-us/dotnet/standard/net-standard)
+    - .NET 5 or later
+    - .NET Core 2.0 or later
     - .NET Framework 4.6.2 or later
-    - Any other runtime that supports [.NET Standard 2.0](https://learn.microsoft.com/en-us/dotnet/standard/net-standard) or later
 
-<a id="installation"></a>
 ## Installation
-**[KoKo on NuGet Gallery](https://www.nuget.org/packages/KoKo/)**
-
-1. Right-click on your C# project and go to Manage NuGet Packages.
-1. Under Browse, search for `KoKo`.
-1. Click the down arrow button for `KoKo`.
-
 ```ps1
-# Alternately, using .NET CLI
 dotnet add package KoKo
-
-# Alternately, using Package Manager PowerShell
-Install-Package KoKo
 ```
 
-<a id="usage"></a>
 ## Usage
 1. Create a `class` to act as your business or view model.
 1. Import the `KoKo.Property` namespace.
 1. Add some `Property` fields, one for each piece of data you want to represent.
 1. Get and set their `Value`.
 
-<a id="example"></a>
 ### Example
 This is a just a silly, simple example. [Don't actually represent people's names this way.](https://www.w3.org/International/questions/qa-personal-names)
 
 ```cs
 using KoKo.Property;
 
-namespace MyProject {
+namespace MyProject;
 
-    public class Person {
+public class Person {
 
-        private StoredProperty<string> FirstName { get; }
-        private StoredProperty<string> LastName { get; }
-        public Property<string> FullName { get; }
+    private StoredProperty<string> FirstName { get; }
+    private StoredProperty<string> LastName { get; }
+    public Property<string> FullName { get; }
 
-        public Person(string firstName, string lastName) {
-            FirstName = new StoredProperty<string>(firstName);
-            LastName = new StoredProperty<string>(lastName);
-            FullName = DerivedProperty<string>.Create(FirstName, LastName, (first, last) => $"{first} {last}");
-        }
-
-        public void SetFirstName(string firstName) {
-            FirstName.Value = firstName;
-        }
-
+    public Person(string firstName, string lastName) {
+        FirstName = new StoredProperty<string>(firstName);
+        LastName = new StoredProperty<string>(lastName);
+        FullName = DerivedProperty<string>.Create(FirstName, LastName, (first, last) => $"{first} {last}");
     }
+
+    public void SetFirstName(string firstName) {
+        FirstName.Value = firstName;
+    }
+
 }
 ```
 
-<a id="programmatic-access"></a>
 #### Programmatic access
 Now you can get a `person` object's autogenerated full name,
 
@@ -113,7 +94,6 @@ person.SetFirstName("Bob");
 Console.WriteLine(person.FullName.Value); // Bob Smith
 ```
 
-<a id="data-bound-access"></a>
 #### Data-bound access
 
 You can also use Properties with databinding:
@@ -132,10 +112,8 @@ private void Form1_Load(object sender, System.EventArgs e) {
 
 Remember to use the `Value` property in your databinding declarations, otherwise you won't get the property's value.
 
-<a id="types-of-properties"></a>
 ## Types of Properties
 
-<a id="storedproperty"></a>
 ### **`StoredProperty`**
 
 - Stores a single value in memory
@@ -150,7 +128,6 @@ a.Value = "world!";
 Console.WriteLine($"Hello {a.Value}"); // Hello world!
 ```
 
-<a id="derivedproperty"></a>
 ### **`DerivedProperty`**
 
 - Automatically calculates its value from one or more other properties (_dependencies_), which can be any type of KoKo property
@@ -166,7 +143,6 @@ b.Value = -9;
 Console.WriteLine($"The absolute value of {b.Value} is {absoluteValueB.Value}."); // The absolute value of -9 is 9.
 ```
 
-<a id="connectableproperty"></a>
 ### `ConnectableProperty`
 - Like a [`PassthroughProperty`](#passthroughProperty), except the dependent `ConnectableProperty` has its dependency `Property` passed to it instead of depending upon it at creation time
 - You can also pass a constant value instead of a `Property`, which is more convenient that constructing a whole new `StoredProperty` instance to hold that constant
@@ -184,7 +160,6 @@ connectable.Connect(b);
 Console.WriteLine(connectable.Value); // 9
 ```
 
-<a id="manuallyrecalculatedproperty"></a>
 ### `ManuallyRecalculatedProperty`
 - Like a [`DerivedProperty`](#derivedProperty), except instead of recalculating its value based on changes to dependency properties, you must manually instruct the property to recalculate its value
 - Useful when the dependencies do not have a way to expose change events
@@ -200,7 +175,6 @@ manuallyRecalculated.Recalculate();
 Console.WriteLine(manuallyRecalculated); // 1591651726420
 ```
 
-<a id="multilevelproperty"></a>
 ### `MultiLevelProperty`
 - Like a [`PassthroughProperty`](#passthroughProperty), except it gets a property value nested at an arbitrary depth
 - Useful if you have an object graph with properties whose values are classes with other properties
@@ -213,7 +187,6 @@ var currentUserFullName = new MultiLevelProperty<string>(() => currentUser.Value
 Console.WriteLine($"Welcome, {currentUserFullName.Value}"); // Welcome, FirstName LastName
 ```
 
-<a id="nativereadableproperty"></a>
 ### `NativeReadableProperty`
 - Useful for interoperation with C# classes, whether they expose property value changes using [`INotifyPropertyChanged`](https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.inotifypropertychanged) or other events
 
@@ -243,7 +216,6 @@ var kokoProperty = new NativeReadableProperty<int>(nativePropertyObject, nameof(
 Console.WriteLine(kokoProperty.Value); // 8
 ```
 
-<a id="nativewritableproperty"></a>
 ### `NativeWritableProperty`
 - Like a [`NativeReadableProperty`](#nativeReadableProperty), except you can also change the value
 - Useful when the native C# property has an accessible setter
@@ -276,7 +248,6 @@ kokoProperty.Value = 9;
 Console.WriteLine(nativePropertyObject.NativeProperty); // 9
 ```
 
-<a id="passthroughproperty"></a>
 ### `PassthroughProperty`
 
 - Like a [`DerivedProperty`](#derivedProperty), except it depends on a single property and does not transform the value at all
@@ -290,7 +261,6 @@ backing.Value = 5.0;
 Console.WriteLine($"{passthrough.Value} liters"); // 5 liters
 ```
 
-<a id="tentativeproperty"></a>
 ### `TentativeProperty`
 - Like a [`PassthroughProperty`](#passthroughProperty), except you can supply a temporary overriding value, which it will use for a specified duration before reverting to the passthrough value
 - Useful for dealing with changes which require a long time to take effect, but you want to make it look like it took effect immediately, while still allowing it to be eventually consistent if the change fails.
@@ -309,7 +279,6 @@ Thread.Sleep(1000);
 Console.WriteLine(tentative.Value); // 11
 ```
 
-<a id="events-on-properties"></a>
 ## Events on Properties
 
 You can subscribe to events that are fired when any `Property`'s value changes.
@@ -336,7 +305,6 @@ var property = new StoredProperty<int>(1);
 property.Value = 2; // Property value changed to 2.
 ```
 
-<a id="threading"></a>
 ## Threading
 
 You may want the property changed event handlers to run on a different thread than the one that caused the property value to change in the first place. This is especially important for updating UI controls, since Windows Forms and WPF only allow UI updates on the main thread, whether the update is imperative or declarative (data binding).

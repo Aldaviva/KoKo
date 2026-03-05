@@ -1,7 +1,4 @@
-﻿using FluentAssertions;
 using KoKo.Property;
-using System.Collections.Generic;
-using Xunit;
 
 namespace Test;
 
