@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/Aldaviva/KoKo/master/KoKo/icon.png" height="24" alt="KoKo logo" /> KoKo
+🐒 KoKo
 ===
 
 [![Package Version](https://img.shields.io/nuget/v/KoKo?logo=nuget)](https://www.nuget.org/packages/KoKo/) [![NuGet Gallery Download Count](https://img.shields.io/nuget/dt/KoKo?logo=nuget&color=blue
