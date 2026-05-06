@@ -9,16 +9,18 @@ namespace KoKo.Property;
 /// </summary>
 /// <typeparam name="T">The type of the <see cref="Value"/> exposed by this property.</typeparam>
 /// See also <seealso cref="DerivedProperty{T}"/>.
-public abstract class UnsettableProperty<T>: Property<T> {
+public abstract class UnsettableProperty<T>(T initialValue): Property<T> {
 
     private readonly object            cachedValueLock = new();
     private readonly PropertyHelper<T> helper          = new();
 
-    protected T CachedValue;
+    protected T CachedValue = initialValue;
 
     public abstract T Value { get; }
 
     object? Property.Value => Value;
+
+    public static implicit operator T(UnsettableProperty<T> input) => input.Value;
 
     /// <summary>
     /// Specify an alternate threading model for running event handlers, instead of the thread that updated the Property's value.
@@ -40,10 +42,6 @@ public abstract class UnsettableProperty<T>: Property<T> {
 
     /// <inheritdoc />
     public IEqualityComparer<T> EqualityComparer { get; set; } = EqualityComparer<T>.Default;
-
-    protected UnsettableProperty(T initialValue) {
-        CachedValue = initialValue;
-    }
 
     protected abstract T ComputeValue();
 
@@ -80,7 +78,7 @@ public abstract class UnsettableProperty<T>: Property<T> {
         remove => helper.PropertyChanged -= value;
     }
 
-    event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged {
+    event PropertyChangedEventHandler? INotifyPropertyChanged.PropertyChanged {
         add => ((INotifyPropertyChanged) helper).PropertyChanged += value;
         remove => ((INotifyPropertyChanged) helper).PropertyChanged -= value;
     }

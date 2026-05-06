@@ -10,14 +10,9 @@ public interface KoKoNotifyPropertyChanged<T>: INotifyPropertyChanged {
 
 }
 
-public class KoKoPropertyChangedEventArgs<T>: PropertyChangedEventArgs {
+public class KoKoPropertyChangedEventArgs<T>(string propertyName, T oldValue, T newValue): PropertyChangedEventArgs(propertyName) {
 
-    public T OldValue { get; }
-    public T NewValue { get; }
-
-    public KoKoPropertyChangedEventArgs(string propertyName, T oldValue, T newValue): base(propertyName) {
-        OldValue = oldValue;
-        NewValue = newValue;
-    }
+    public T OldValue { get; } = oldValue;
+    public T NewValue { get; } = newValue;
 
 }

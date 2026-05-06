@@ -22,9 +22,8 @@ public class StoredProperty<T>: AbstractSettableProperty<T> {
     /// Console.WriteLine($"Hello {name.Value}"); // Hello Ben
     /// </code>
     /// </example>
-    public StoredProperty(T initialValue = default!) {
+    public StoredProperty(T initialValue = default!) =>
         StoredValue = initialValue;
-    }
 
     /// <summary>
     /// Gets or sets the value stored in this property.

@@ -36,9 +36,8 @@ public class NativeReadableProperty<T>: UnsettableProperty<T> {
     /// <param name="nativeObject">A C# object that implements <see cref="INotifyPropertyChanged" /></param>
     /// <param name="nativePropertyName">The name of a regular C# property (not a KoKo property) on the <c>nativeObject</c> that triggers <c>PropertyChanged</c> events on the object.<br />To be more type-safe here, you can use <c>nameof(MyNativeObjectClass.MyNativeProperty)</c> instead of a string <c>"MyNativeProperty"</c>.</param>
     /// <exception cref="ArgumentException">if the native property does not exist on the given object, or if its getter isn't accessible, or if its value's type does not match <code>&lt;T&gt;</code></exception>
-    public NativeReadableProperty(INotifyPropertyChanged nativeObject, string nativePropertyName): this((object) nativeObject, nativePropertyName) {
+    public NativeReadableProperty(INotifyPropertyChanged nativeObject, string nativePropertyName): this((object) nativeObject, nativePropertyName) =>
         nativeObject.PropertyChanged += NativePropertyChanged;
-    }
 
     /// <summary>Create a KoKo property whose value and change events come from a native C# property.</summary>
     /// <param name="nativeObject">A C# object that does not implement <see cref="INotifyPropertyChanged" /></param>
@@ -57,7 +56,7 @@ public class NativeReadableProperty<T>: UnsettableProperty<T> {
 #endif
     }
 
-    private void NativePropertyChanged(object sender, PropertyChangedEventArgs e) {
+    private void NativePropertyChanged(object? sender, PropertyChangedEventArgs e) {
         if (e.PropertyName == nativePropertyName) {
             ComputeValueAndFireChangeEvents();
         }
@@ -65,8 +64,6 @@ public class NativeReadableProperty<T>: UnsettableProperty<T> {
 
     public override T Value => CachedValue;
 
-    protected override T ComputeValue() {
-        return (T) nativeProperty.GetValue(nativeObject);
-    }
+    protected override T ComputeValue() => (T) nativeProperty.GetValue(nativeObject);
 
 }

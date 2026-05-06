@@ -29,9 +29,8 @@ public class ManuallyRecalculatedProperty<T>: UnsettableProperty<T>, ManuallyRec
     /// <c>Recalculate()</c>.
     /// </summary>
     /// <param name="calculator">A function that returns the value of the property</param>
-    public ManuallyRecalculatedProperty(Func<T> calculator): base(calculator()) {
+    public ManuallyRecalculatedProperty(Func<T> calculator): base(calculator()) =>
         this.calculator = calculator;
-    }
 
     /// <summary>
     /// <para>Constructor to be used when subclassing <see cref="ManuallyRecalculatedProperty{T}"/>, if you want to override
@@ -42,17 +41,13 @@ public class ManuallyRecalculatedProperty<T>: UnsettableProperty<T>, ManuallyRec
     /// </summary>
     /// <exception cref="NotImplementedException">if you call this constructor without subclassing <see cref="ManuallyRecalculatedProperty{T}"/> and overriding <see cref="ComputeValue"/></exception>
     protected ManuallyRecalculatedProperty(): base(default!) {
-        calculator = () => throw new NotImplementedException("Please either pass a calculator function to the " +
+        calculator = static () => throw new NotImplementedException("Please either pass a calculator function to the " +
             $"{nameof(ManuallyRecalculatedProperty)}(Func) constructor, or override its {nameof(ComputeValue)}() method");
         CachedValue = ComputeValue();
     }
 
-    protected override T ComputeValue() {
-        return calculator();
-    }
+    protected override T ComputeValue() => calculator();
 
-    public void Recalculate() {
-        ComputeValueAndFireChangeEvents();
-    }
+    public void Recalculate() => ComputeValueAndFireChangeEvents();
 
 }

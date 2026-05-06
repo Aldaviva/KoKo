@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>netstandard2.1;netstandard2.0;net462</TargetFrameworks>
+        <TargetFrameworks>netstandard2.1;netstandard2.0;net462;net5.0;net9.0</TargetFrameworks>
         <Title>KoKo</Title>
-        <Version>2.3.0</Version>
+        <Version>2.4.0-beta.1</Version>
         <Authors>Ben Hutchison</Authors>
         <Copyright>© 2026 $(Authors)</Copyright>
         <Company>$(Authors)</Company>
@@ -11,9 +11,11 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <NoWarn>$(NoWarn);1701,1702,1591</NoWarn>
+        <WarningsAsErrors>CA1859</WarningsAsErrors>
         <RepositoryType>git</RepositoryType>
-        <RepositoryUrl>https://github.com/Aldaviva/KoKo.git</RepositoryUrl>
         <PackageProjectUrl>https://github.com/Aldaviva/KoKo</PackageProjectUrl>
+        <RepositoryUrl>$(PackageProjectUrl).git</RepositoryUrl>
+        <PackageReleaseNotes>$(PackageProjectUrl)/releases/tag/$(Version)</PackageReleaseNotes>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
         <Description>Declarative automatic state management in .NET with no boilerplate. Never deal with INotifyPropertyChanged again.</Description>
@@ -31,10 +33,11 @@
     <ItemGroup>
         <None Include="icon.png;..\ReadMe.md" Pack="true" PackagePath="\" />
         <None Include="..\.github*\**" />
+        <None Include="*.sln.DotSettings;*.csproj.DotSettings" Visible="false" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.103" PrivateAssets="All" />
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="[10.0.107,10.0.200)" PrivateAssets="All" />
     </ItemGroup>
 
     <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true' or '$(Configuration)' != 'Debug'">

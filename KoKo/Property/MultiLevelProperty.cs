@@ -32,11 +32,10 @@ public class MultiLevelProperty<T>: UnsettableProperty<T> {
         }
     }
 
-    protected override T ComputeValue() {
-        return instrumentedPropertyExpression().Value;
-    }
+    protected override T ComputeValue() =>
+        instrumentedPropertyExpression().Value;
 
-    private void OnInstrumentedPropertyChanged(object sender, PropertyChangedEventArgs args) {
+    private void OnInstrumentedPropertyChanged(object? sender, PropertyChangedEventArgs args) {
         foreach (Property instrumentedProperty in instrumentor.Properties) {
             instrumentedProperty.PropertyChanged -= OnInstrumentedPropertyChanged;
         }
@@ -55,12 +54,12 @@ public class MultiLevelProperty<T>: UnsettableProperty<T> {
 internal sealed class PropertyInstrumentingVisitor: ExpressionVisitor {
 
     private static readonly TypeInfo   PropertyTypeInfo                 = typeof(Property).GetTypeInfo();
-    private static readonly MethodInfo InstrumentPropertyAccessorMethod = typeof(PropertyInstrumentingVisitor).GetRuntimeMethod(nameof(InstrumentPropertyAccessor), new[] { typeof(Property) });
+    private static readonly MethodInfo InstrumentPropertyAccessorMethod = typeof(PropertyInstrumentingVisitor).GetRuntimeMethod(nameof(InstrumentPropertyAccessor), [typeof(Property)]);
 
-    private readonly List<Property> propertiesWritable = new();
+    private readonly List<Property> propertiesWritable = [];
     public IEnumerable<Property> Properties => propertiesWritable;
 
-    private readonly ISet<MemberExpression> instrumentedNodes = new HashSet<MemberExpression>();
+    private readonly HashSet<MemberExpression> instrumentedNodes = [];
 
     public Property InstrumentPropertyAccessor(Property intercepted) {
         propertiesWritable.Add(intercepted);

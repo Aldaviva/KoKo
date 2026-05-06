@@ -14,11 +14,11 @@ internal sealed class NativeEventListener {
     private const string ActionFieldName        = "EventSender";
     private const string EventHandlerMethodName = "EventReceiver";
 
-    private static readonly IDictionary<Type[], Type> EventProxyStructCache = new Dictionary<Type[], Type>();
+    private static readonly Dictionary<Type[], Type> EventProxyStructCache = [];
 
 #if !NETSTANDARD2_0
-    private static ModuleBuilder? _moduleBuilder;
-    private static long           _classNameCounter;
+    private static ModuleBuilder? moduleBuilder;
+    private static long           classNameCounter;
     public event EventHandler? OnEvent;
 #endif
 
@@ -35,17 +35,17 @@ internal sealed class NativeEventListener {
         }
 
         ParameterInfo[] parameterInfo  = invokeMethod.GetParameters();
-        Type[]          parameterTypes = parameterInfo.Select(param => param.ParameterType).ToArray();
+        Type[]          parameterTypes = parameterInfo.Select(static param => param.ParameterType).ToArray();
 
-        if (!EventProxyStructCache.TryGetValue(parameterTypes, out Type eventProxyStructType)) {
-            if (_moduleBuilder == null) {
+        if (!EventProxyStructCache.TryGetValue(parameterTypes, out Type? eventProxyStructType)) {
+            if (moduleBuilder == null) {
                 AssemblyName    assemblyName    = new("DynamicTypes");
                 AssemblyBuilder assemblyBuilder = AssemblyBuilder.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
-                _moduleBuilder = assemblyBuilder.DefineDynamicModule(assemblyName.Name);
+                moduleBuilder = assemblyBuilder.DefineDynamicModule(assemblyName.Name);
             }
 
-            long classNumber = Interlocked.Increment(ref _classNameCounter);
-            TypeBuilder typeBuilder = _moduleBuilder.DefineType("EventProxyStruct" + classNumber, TypeAttributes.Class | TypeAttributes.Public | TypeAttributes.SequentialLayout |
+            long classNumber = Interlocked.Increment(ref classNameCounter);
+            TypeBuilder typeBuilder = moduleBuilder.DefineType("EventProxyStruct" + classNumber, TypeAttributes.Class | TypeAttributes.Public | TypeAttributes.SequentialLayout |
                 TypeAttributes.AnsiClass | TypeAttributes.Sealed | TypeAttributes.BeforeFieldInit, typeof(ValueType));
             FieldBuilder  actionFieldBuilder  = typeBuilder.DefineField(ActionFieldName, typeof(Action), FieldAttributes.Public);
             MethodBuilder eventHandlerBuilder = typeBuilder.DefineMethod(EventHandlerMethodName, MethodAttributes.Public, invokeMethod.ReturnType, parameterTypes);

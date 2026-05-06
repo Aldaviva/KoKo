@@ -10,7 +10,6 @@ internal sealed class PropertyHelper<T>: KoKoNotifyPropertyChanged<T> {
     public SynchronizationContext? EventSynchronizationContext { get; set; }
 
     public event KoKoPropertyChangedEventHandler<T>? PropertyChanged;
-
     private event PropertyChangedEventHandler? PropertyChanged2;
 
     internal void OnValueChanged(object sender, T oldValue, T newValue) {
@@ -26,7 +25,7 @@ internal sealed class PropertyHelper<T>: KoKoNotifyPropertyChanged<T> {
         }
     }
 
-    event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged {
+    event PropertyChangedEventHandler? INotifyPropertyChanged.PropertyChanged {
         add {
             lock (propertyChanged2Lock) {
                 PropertyChanged2 += value;

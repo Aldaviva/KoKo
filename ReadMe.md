@@ -43,7 +43,7 @@ This library was ported from an open-source Swift library by [@abrindam](https:/
 
 ## Installation
 ```ps1
-dotnet add package KoKo
+dotnet package add KoKo
 ```
 
 ## Usage

@@ -40,16 +40,17 @@ public abstract class AbstractSettableProperty<T>: SettableProperty<T> {
 
     object? Property.Value => Value;
 
-    internal void OnValueChanged(T oldValue, T newValue) {
+    public static implicit operator T(AbstractSettableProperty<T> input) => input.Value;
+
+    internal void OnValueChanged(T oldValue, T newValue) =>
         helper.OnValueChanged(this, oldValue, newValue);
-    }
 
     public event KoKoPropertyChangedEventHandler<T> PropertyChanged {
         add => helper.PropertyChanged += value;
         remove => helper.PropertyChanged -= value;
     }
 
-    event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged {
+    event PropertyChangedEventHandler? INotifyPropertyChanged.PropertyChanged {
         add => ((INotifyPropertyChanged) helper).PropertyChanged += value;
         remove => ((INotifyPropertyChanged) helper).PropertyChanged -= value;
     }

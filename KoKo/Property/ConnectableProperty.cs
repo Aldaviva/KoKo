@@ -1,3 +1,7 @@
+#if NET9_0_OR_GREATER
+using System.Runtime.CompilerServices;
+#endif
+
 namespace KoKo.Property;
 
 /// <summary>
@@ -30,9 +34,7 @@ public class ConnectableProperty<T>: UnsettableProperty<T> {
         this.disconnectedValue = disconnectedValue;
     }
 
-    protected override T ComputeValue() {
-        return Value;
-    }
+    protected override T ComputeValue() => Value;
 
     /// <summary>
     /// Connect this property to a <c>source</c> dependency property. Until it is disconnected, this property will return the
@@ -41,6 +43,9 @@ public class ConnectableProperty<T>: UnsettableProperty<T> {
     /// To stop depending on the source, call <c>Disconnect()</c> or <c>Connect(null)</c>.
     /// </summary>
     /// <param name="source">The upstream dependency property that this object should get its value from.</param>
+#if NET9_0_OR_GREATER
+    [OverloadResolutionPriority(1)]
+#endif
     public void Connect(Property<T>? source) {
         if (connectedProperty != null) {
             connectedProperty.PropertyChanged -= ComputeValueAndFireChangeEvents;
@@ -50,7 +55,7 @@ public class ConnectableProperty<T>: UnsettableProperty<T> {
         ComputeValueAndFireChangeEvents();
 
         if (connectedProperty != null) {
-            ListenForDependencyUpdates(new[] { connectedProperty });
+            ListenForDependencyUpdates([connectedProperty]);
         }
     }
 
@@ -59,7 +64,8 @@ public class ConnectableProperty<T>: UnsettableProperty<T> {
     /// </summary>
     /// <param name="constant">A value that you want to assign to this property.</param>
     public void Connect(T constant) {
-        Connect(new StoredProperty<T>(constant));
+        Property<T> property = new StoredProperty<T>(constant);
+        Connect(property);
     }
 
     /// <summary>
@@ -67,8 +73,6 @@ public class ConnectableProperty<T>: UnsettableProperty<T> {
     /// this property's value will come from the disconnected value specified in the constructor. Connecting and disconnected a
     /// source will fire change events, as long as the value actually changes.
     /// </summary>
-    public void Disconnect() {
-        Connect(null);
-    }
+    public void Disconnect() => Connect(null);
 
 }

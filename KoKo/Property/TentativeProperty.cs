@@ -89,6 +89,7 @@ public class TentativeProperty<T>: AbstractSettableProperty<T>, IDisposable {
             cancellationTokenSource?.Dispose();
             cancellationTokenSource = null;
         }
+        GC.SuppressFinalize(this);
     }
 
 }

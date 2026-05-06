@@ -16,9 +16,7 @@ public class PassthroughProperty<T>: UnsettableProperty<T> {
     /// </summary>
     public override T Value => ComputeValue();
 
-    protected override T ComputeValue() {
-        return parentProperty.Value;
-    }
+    protected override T ComputeValue() => parentProperty.Value;
 
     /// <summary>
     /// Create a new property whose value is always the same as the given <paramref name="parentProperty"/>.
@@ -30,8 +28,7 @@ public class PassthroughProperty<T>: UnsettableProperty<T> {
         this.parentProperty.PropertyChanged += OnParentPropertyChanged;
     }
 
-    protected virtual void OnParentPropertyChanged(object sender, KoKoPropertyChangedEventArgs<T> args) {
+    protected virtual void OnParentPropertyChanged(object sender, KoKoPropertyChangedEventArgs<T> args) =>
         OnValueChanged(args.OldValue, args.NewValue);
-    }
 
 }

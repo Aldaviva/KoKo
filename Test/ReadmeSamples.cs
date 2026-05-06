@@ -122,11 +122,10 @@ namespace Test {
 
         public int nativeProperty { get; set; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-        protected virtual void onPropertyChanged([CallerMemberName] string propertyName = null) {
+        protected virtual void onPropertyChanged([CallerMemberName] string? propertyName = null) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
     }
 
