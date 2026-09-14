@@ -15,8 +15,9 @@ namespace KoKo.Property;
 /// to this</typeparam>
 public class ConnectableProperty<T>: UnsettableProperty<T> {
 
-    private          Property<T>? connectedProperty;
-    private readonly T            disconnectedValue;
+    private Property<T>? connectedProperty;
+
+    private readonly T disconnectedValue;
 
     /// <summary>
     /// The value of the currently-connected source property. If no source is currently connected to this property, the
@@ -47,9 +48,7 @@ public class ConnectableProperty<T>: UnsettableProperty<T> {
     [OverloadResolutionPriority(1)]
 #endif
     public void Connect(Property<T>? source) {
-        if (connectedProperty != null) {
-            connectedProperty.PropertyChanged -= ComputeValueAndFireChangeEvents;
-        }
+        connectedProperty?.PropertyChanged -= ComputeValueAndFireChangeEvents;
 
         connectedProperty = source;
         ComputeValueAndFireChangeEvents();

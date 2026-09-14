@@ -22,6 +22,7 @@ internal sealed class NativeEventListener {
     public event EventHandler? OnEvent;
 #endif
 
+    // https://learn.microsoft.com/en-us/dotnet/api/system.reflection.eventinfo.addeventhandler#examples
     /// <exception cref="ArgumentException">If the named event cannot be found on the given object.</exception>
     /// <exception cref="PlatformNotSupportedException">If you are running on .NET Standard 2.0. To use this class, target at least .NET Framework 4.6.2, .NET Standard 2.1, or .NET Core 3.0.</exception>
     public NativeEventListener(object nativeObject, string nativeEventName) {
